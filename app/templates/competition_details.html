@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h2>{{ form.competition }}<h2>
+
+  <h3>Add a team:</h3>
+
+  {% for message in form.team.errors %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+
+    <form class="form-horizontal" action="{{ url_for('manage_competition', id=id) }}" method="post">
+    {{ form.hidden_tag() }}
+
+      <div class="form-group">
+    {{ form.team.label(class_="control-label col-xs-6") }}
+          <div class="col-xs-6">
+          {{ form.team(class_="form-control") }}
+              </div>
+     </div>
+      <div class="form-group">
+         <div class="col-xs-12">{{ form.submit(class_="form-control") }} </div>
+      </div>
+    </form>
+<hr size="2">
+  <h3>Current teams:</h3>
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+                <th>Team Number</th>
+                <th>Team Name</th>
+            </tr>
+        </thead>
+        {% for team in team_data %}
+            <tr>
+                <td>{{ team.number }}</td>
+                <td>{{ team.name }}</td>
+            </tr>
+        {%  endfor %}
+    </table>
+{% endblock %}

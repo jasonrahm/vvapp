@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Robo Raiders FTC 7129</h2>
+    <h3>Competition Management App</h3>
+    <p>Manage competitions, teams, and scouting with this application. After scouting is complete,
+        you can run reports for assistance with alliance selection.</p>
+    <hr size="2">
+    {%  if 'username' in session %}
+    <h3>Management Workflow</h3>
+    <ol class="list">
+        <li>Add anyone that might be scouting</li>
+        <li>Add competition (if not already present)</li>
+        <li>Add team (if not already present)</li>
+        <li>Add teams to the appropriate competition</li>
+        <li>Scout all the teams in pits</li>
+        <li>Run Pit Scouting Reports</li>
+        <li>Score Matches</li>
+        <li>Run Match Scoring Reports</li>
+    </ol>
+    <h3>Resources</h3>
+    <ul class="list-unstyled">
+        <li><a href="{{ url_for('competitions') }}">Competitions</a></li>
+    </ul>
+    {%  endif %}
+{% endblock %}

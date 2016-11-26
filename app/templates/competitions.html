@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if form.errors %}
+    <ul>
+        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+            {% for error in field_errors %}
+                <li>{{ form[field_name].label }}: {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% endif %}
+
+  <h2>Add a Competition</h2>
+
+  <form class="form-horizontal" action="{{ url_for('competitions') }}" method="post">
+    {{ form.hidden_tag() }}
+
+      <div class="form-group">
+    {{ form.name.label(class_="control-label col-xs-6") }}
+          <div class="col-xs-6">
+          {{ form.name(class_="form-control") }}
+              </div>
+     </div>
+
+      <div class="form-group">
+    {{ form.date.label(class_="control-label col-xs-6") }}
+          <div class="col-xs-6">
+          {{ form.date(class_="form-control") }}
+              </div>
+     </div>
+
+      <div class="form-group">
+         <div class="col-xs-12">{{ form.submit(class_="form-control") }} </div>
+      </div>
+  </form>
+ <hr size="2">
+  <h2>Existing Competitions:</h2>
+  <table>
+    <thread>
+        <tr>
+            <th><strong>Name</strong></th>
+            <th><strong>Date</strong></th>
+            <th><b>Actions</b></th>
+        </tr>
+    </thread>
+    {% for competition in competitions %}
+    <tr>
+        <td>
+            <a href="{{ url_for('manage_competition', id = competition.id) }}">{{  competition.name }}</a>
+            </td>
+        <td>{{  competition.date }}</td>
+        <td>
+            <a href="{{  url_for('delete_competition_entry', id = competition.id) }}">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
