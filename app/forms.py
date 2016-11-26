@@ -3,6 +3,7 @@ from models import Competitions
 from models import CompetitionTeam
 from models import Teams
 from models import Users
+from wtforms import BooleanField
 from wtforms import DateField
 from wtforms import HiddenField
 from wtforms import IntegerField
@@ -53,24 +54,24 @@ class CompetitionTeamForm(Form):
 
 
 class LoginForm(Form):
-    username = StringField('Username', [validators.DataRequired('Please enter your username.')])
-    password = PasswordField('Password', [validators.DataRequired('Please enter your password.')])
+    email = StringField('Email', [validators.DataRequired()])
+    password = PasswordField('Password', [validators.DataRequired()])
+    remember_me = BooleanField("Remember me?", default=True)
     submit = SubmitField('Sign In')
 
     def __init__(self, *args, **kwargs):
         Form.__init__(self, *args, **kwargs)
 
     def validate(self):
-        if not Form.validate(self):
+        if not super(LoginForm, self).validate():
             return False
 
-        user = Users.query.filter_by(
-            username=self.username.data.lower()).first()
-        if user and user.verify_password(self.password.data):
-            return True
-        else:
-            self.username.errors.append('Invalid username or password')
+        self.user = Users.authenticate(self.email.data, self.password.data)
+        if not self.user:
+            self.email.errors.append("Invalid email or password")
             return False
+
+        return True
 
 
 class TeamForm(Form):

@@ -1,6 +1,13 @@
-from passlib.apps import custom_app_context as pwd_context
+from app import bcrypt
 from app import db
+from app import login_manager
+from slugify import slugify
 import datetime
+
+
+@login_manager.user_loader
+def _user_loader(user_id):
+    return Users.query.get(int(user_id))
 
 
 class Competitions(db.Model):
@@ -79,23 +86,55 @@ class Teams(db.Model):
 class Users(db.Model):
     __tablename__ = 'Users'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(32), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
-    role = db.Column(db.String(32), nullable=False)
+    email = db.Column(db.String(64), unique=True)
+    password_hash = db.Column(db.String(255))
+    name = db.Column(db.String(64))
+    slug = db.Column(db.String(64), unique=True)
+    active = db.Column(db.Boolean, default=True)
     created_timestamp = db.Column(db.DateTime, default=datetime.datetime.now)
-    modified_timestamp = db.Column(
-        db.DateTime,
-        default=datetime.datetime.now,
-        onupdate=datetime.datetime.now)
 
-    def verify_password(self, password):
-        return pwd_context.verify(password, self.password_hash)
+    def __init__(self, *args, **kwargs):
+        super(Users, self).__init__(*args, **kwargs)
+        self.generate_slug()
 
-    def __init__(self, username, password_hash, role, timestamp):
-        self.username = username
-        self.password_hash = pwd_context.encrypt(password_hash)
-        self.role = role
-        self.created_timestamp = timestamp
+    def generate_slug(self):
+        if self.name:
+            self.slug = slugify(unicode(self.name, "utf-8"))
 
     def __repr__(self):
-        return '<Users %r>' % self.username
+        return '<Users %r>' % self.email
+
+    # Start Flask-Login interface methods
+    def get_id(self):
+        return unicode(self.id)
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return self.active
+
+    def is_anonymous(self):
+        return False
+
+    @staticmethod
+    def make_password(plaintext):
+        return bcrypt.generate_password_hash(plaintext)
+
+    def check_password(self, raw_password):
+        return bcrypt.check_password_hash(self.password_hash, raw_password)
+
+    @classmethod
+    def create(cls, email, password, **kwargs):
+        return Users(
+            email=email,
+            password_hash=Users.make_password(password),
+            **kwargs)
+
+    @staticmethod
+    def authenticate(email, password):
+        user = Users.query.filter(Users.email == email).first()
+        if user and user.check_password(password):
+            return user
+        return False
+

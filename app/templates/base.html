@@ -20,12 +20,12 @@
             <div>
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url_for('index') }}">Home</a></li>
-                    {% if 'username' in session %}
+                    {% if g.user.is_authenticated %}
                     <li><a href="{{ url_for('competitions') }}">Competitions</a></li>
                     <li><a href="{{ url_for('teams') }}">Teams</a></li>
-                    <li><a href="{{ url_for('logout') }}">Sign Out</a></li>
+                    <li><a href="{{ url_for('logout', next=request.path) }}">Sign Out</a></li>
                     {% else %}
-                    <li><a href="{{ url_for('login') }}">Sign In</a></li>
+                    <li><a href="{{ url_for('login', next=request.path) }}">Sign In</a></li>
                     {% endif %}
                 </ul>
             </div>
