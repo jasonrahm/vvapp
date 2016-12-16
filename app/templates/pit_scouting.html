@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if form.errors %}
+    <ul>
+        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+            {% for error in field_errors %}
+                <li>{{ form[field_name].label }}: {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% endif %}
+
+
+  <h3>Pit Scouting Form</h3>
+  <form class="form-horizontal" action="{{ url_for('pit_scouting') }}" method="post">
+    {{ form.hidden_tag() }}
+
+    <div class="row">
+        <div class="col-md-12 col-sm-6 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title">Scouting Information</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        {{ form.competition.label }} {{ form.competition }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.team.label }} {{ form.team }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-6 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title">Autonomous</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        {{ form.a_canScoreCenter.label }} {{ form.a_canScoreCenter }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.a_canScoreCorner.label }} {{ form.a_canScoreCorner }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.a_canMoveBall.label }} {{ form.a_canMoveBall }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.a_canPushBeacons.label }} {{ form.a_canPushBeacons }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.a_canParkCenter.label }} {{ form.a_canParkCenter }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.a_canParkCorner.label }} {{ form.a_canParkCorner }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-6 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title">Teleop</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        {{ form.t_canScoreCenter.label }} {{ form.t_canScoreCenter }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.t_canScoreCorner.label }} {{ form.t_canScoreCorner }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.t_canPushBeacons.label }} {{ form.t_canPushBeacons }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.t_canLiftBall.label }} {{ form.t_canLiftBall }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+      <div class="row">
+        <div class="col-md-12 col-sm-6 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title">Notes & General Information</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        {{ form.notes }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.watchlist.label }} {{ form.watchlist }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12">{{ form.submit(class="form-control") }}</div>
+    </div>
+  </form>
+{% endblock %}

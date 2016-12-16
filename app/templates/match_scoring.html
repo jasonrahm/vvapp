@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  {% if form.errors %}
+    <ul>
+      {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+            {% for error in field_errors %}
+                <li>{{ form[field_name].label }}: {{ error }}</li>
+            {% endfor %}
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+    <h2>Match Scoring</h2>
+    <div id="scoring">
+    <form class="form-horizontal" action="{{ url_for('match_scoring') }}" method="post">
+    {{ form.hidden_tag() }}
+        <div class="row">
+            <div class="col-md-12 col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix">
+                        <h3 class="panel-title">Scoring Info</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            {{ form.competition.label }} {{ form.competition }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.team.label }} {{ form.team }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.match_number.label }} {{ form.match_number }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.adv_metrics.label }} {{ form.adv_metrics }}
+                        </div>
+                    </div>
+                    <div class="panel-heading clearfix">
+                        <h3 class="panel-title">Autonomous</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            {{ form.a_center_vortex.label }} {{ form.a_center_vortex }}
+                            <button id="a_center_incr" type="button">+</button>
+                            <button id="a_center_decr" type="button">-</button>
+                        </div>
+                        <div class="form-group">
+                            {{ form.a_corner_vortex.label }} {{ form.a_corner_vortex }}
+                            <button id="a_corner_incr" type="button">+</button>
+                            <button id="a_corner_decr" type="button">-</button>
+                        </div>
+                        <div class="form-group">
+                            {{ form.a_beacon.label }} {{ form.a_beacon }}
+                            <button id="a_beacon_incr" type="button">+</button>
+                            <button id="a_beacon_decr" type="button">-</button>
+                        </div>
+                        <div class="form-group">
+                            {{ form.a_capball.label }} {{ form.a_capball }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.a_park.label }} {{ form.a_park }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.a_score.label }} {{ form.a_score }}
+                        </div>
+                    </div>
+                    <div class="panel-heading clearfix">
+                        <h3 class="panel-title">Teleop/End Game</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            {{ form.t_center_vortex.label }} {{ form.t_center_vortex }}
+                            <button id="t_center_incr" type="button">+</button>
+                            <button id="t_center_decr" type="button">-</button>
+                        </div>
+                        <div class="form-group">
+                            {{ form.t_corner_vortex.label }} {{ form.t_corner_vortex }}
+                            <button id="t_corner_incr" type="button">+</button>
+                            <button id="t_corner_decr" type="button">-</button>
+                        </div>
+                        <div class="form-group">
+                            {{ form.t_beacon.label }} {{ form.t_beacon }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.t_capball.label }} {{ form.t_capball }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.t_score.label }} {{ form.t_score }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.total_score.label }} {{ form.total_score }}
+                        </div>
+                        <hr size="5">
+                        <div class="form-group" id="particle_speed">
+                            {{ form.particle_speed.label }} {{ form.particle_speed }}
+                        </div>
+                        <div class="form-group" id="capball_speed">
+                            {{ form.capball_speed.label }} {{ form.capball_speed }}
+                        </div>
+                        <div class="form-group" id="match_notes">
+                            {{ form.match_notes.label }} {{ form.match_notes }}
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                {{ form.submit(class_='form-control') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+
+{% endblock %}

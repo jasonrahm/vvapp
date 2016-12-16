@@ -1,71 +1,70 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #444;
-}
 
-.form-group {
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.row {
-  font-size: 12px;
-  line-height: 18px;
-}
 
-/*
- * Center the body content
- */
-
-.container {
-  width: 350px;
-  margin: 0 auto;
-}
-textarea#comments,
-textarea#a_comments {
-  height: 100px;
-  display: block;
-  width: 100%;
-  padding: 6px 12px;
-  border: 1px solid #ccc
-  border-radius: 4px;
-}
-
-h2 {
-  text-align: center;
-}
-h3 {
-  text-align: center;
-}
+h2,
+h3,
+h4,
 h5 {
-  text-align: center;
+    text-align: center;
 }
 
 /* Message flashing */
 .flash {
-  background-color: #FBB0B0;
-  padding: 10px;
-  width: 400px;
+    background-color: #FBB0B0;
+    padding: 10px;
+    width: 400px;
 }
 
-div#a_climbers_acc.form-group,
-div#a_midpark_acc.form-group,
-div#a_highpark_acc.form-group,
-div#t_climbers_acc.form-group,
-div#lowclimber_acc.form-group,
-div#midclimber_acc.form-group,
-div#highclimber_acc.form-group,
-div#t_midpark_acc.form-group,
-div#t_highpark_acc.form-group {
-  display: none;
+
+
+/*new stuff*/
+#scoring .form-group input[type=number]::-webkit-inner-spin-button,
+#scoring .form-group input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
-label {
-  font-size: 14px;
+
+#scoring .form-group input[type=number] {
+    -moz-appearance: textfield;
 }
-input[type=checkbox][disabled] + label {
-    color: #ccc;
+
+#scoring #match_notes input[type=text] {
+    width: 200px;
+    height: 75px;
 }
-select[disabled] + label {
-    color: #ccc;
+
+
+#scoring .form-group {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#scoring .form-group input[type=number] {
+    width: 42px;
+    height: 42px;
+    text-align: center;
+}
+
+#scoring .form-group button {
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+}
+
+#scoring .form-group label {
+    width: 150px;
+    padding-left: 5px;
+    text-align: center;
+}
+
+#scoring .form-group select {
+    width: 125px;
+}
+#scoring .row {
+    font-size: 12px;
+    line-height: 18px;
+}
+
+div#particle_speed.form-group,
+div#capball_speed.form-group,
+div#match_notes.form-group {
+    display: none;
 }

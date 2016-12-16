@@ -12,12 +12,17 @@ from flask_login import logout_user
 from forms import CompetitionsForm
 from forms import CompetitionTeamForm
 from forms import LoginForm
+from forms import MatchScoringForm
+from forms import PitScoutingForm
 from forms import TeamForm
 from models import db
 from models import Competitions
 from models import CompetitionTeam
+from models import MatchScore
+from models import PitScouting
 from models import Teams
 from models import Users
+from sqlalchemy import and_
 
 import datetime
 
@@ -102,6 +107,19 @@ def manage_competition(id):
                                team_data=team_data)
 
 
+@app.route('/competitions/<int:comp_id>/delete/<int:team_id>', methods=['GET'])
+@login_required
+def delete_team_from_comp(comp_id, team_id):
+    team = Teams.query.get(team_id)
+    records = CompetitionTeam.query.filter(and_(
+        CompetitionTeam.competitions == comp_id,
+        CompetitionTeam.teams == team_id)).first()
+    db.session.delete(records)
+    db.session.commit()
+    flash('Team {0} deleted from competition'.format(team.name))
+    return redirect(url_for('manage_competition', id=comp_id))
+
+
 @app.route('/competitions/delete/<int:id>', methods=['GET'])
 @login_required
 def delete_competition_entry(id):
@@ -136,6 +154,124 @@ def logout():
     return redirect(request.args.get('next') or url_for('index'))
 
 
+@app.route('/match-scoring', methods=['GET', 'POST'])
+@login_required
+def match_scoring():
+    form = MatchScoringForm(request.values)
+    form.competition.choices = [(a.id, a.name) for a in
+                                Competitions.query.order_by('name')]
+    form.team.choices = [(a.id, a.number) for a in
+                         Teams.query.order_by('number')]
+
+    if request.method == 'POST':
+        if not form.validate():
+            return render_template('match_scoring.html', form=form)
+        else:
+            competition = request.form.get('competition', '')
+            team = request.form.get('team', '')
+            match_number = request.form.get('match_number', '')
+            a_center_vortex = request.form.get('a_center_vortex', '')
+            a_corner_vortex = request.form.get('a_corner_vortex', '')
+            a_beacon = request.form.get('a_beacon', '')
+            a_capball = request.form.get('a_capball', '')
+            a_park = request.form.get('a_park', '')
+            t_center_vortex = request.form.get('t_center_vortex', '')
+            t_corner_vortex = request.form.get('t_corner_vortex', '')
+            t_beacon = request.form.get('t_beacon', '')
+            t_capball = request.form.get('t_capball', '')
+            a_score = request.form.get('a_score', '')
+            t_score = request.form.get('t_score', '')
+            total_score = request.form.get('total_score', '')
+            particle_speed = request.form.get('particle_speed', '')
+            capball_speed = request.form.get('capball_speed', '')
+            match_notes = request.form.get('match_notes', '')
+
+            matchscore = MatchScore(
+                teams=team,
+                competitions=competition,
+                match_number=match_number,
+                a_center_vortex=a_center_vortex,
+                a_corner_vortex=a_corner_vortex,
+                a_beacon=a_beacon,
+                a_capball=a_capball,
+                a_park=a_park,
+                t_center_vortex=t_center_vortex,
+                t_corner_vortex=t_corner_vortex,
+                t_beacon=t_beacon,
+                t_capball=t_capball,
+                a_score=a_score,
+                t_score=t_score,
+                total_score=total_score,
+                particle_speed=particle_speed,
+                capball_speed=capball_speed,
+                match_notes=match_notes,
+                timestamp=datetime.datetime.now())
+            db.session.add(matchscore)
+            db.session.commit()
+
+            flash('Score Added Successfully')
+            return redirect(url_for('match_scoring'))
+
+    elif request.method == 'GET':
+        return render_template('match_scoring.html', form=form)
+
+
+@app.route('/pit-scouting', methods=['GET', 'POST'])
+@login_required
+def pit_scouting():
+    form = PitScoutingForm(request.values)
+    form.competition.choices = [(a.id, a.name) for a in
+                                Competitions.query.order_by('name')]
+    form.team.choices = [(a.id, a.number) for a in
+                         Teams.query.order_by('number')]
+
+    if request.method == 'POST':
+        if not form.validate():
+            return render_template('pit_scouting.html', form=form)
+        else:
+            # Put Code to process form and add to DB here
+            competition = request.form.get('competition', '')
+            team = request.form.get('team', '')
+            a_canScoreCenter = request.form.get('a_canScoreCenter', '')
+            a_canScoreCorner = request.form.get('a_canScoreCorner', '')
+            a_canMoveBall = request.form.get('a_canMoveBall', '')
+            a_canPushBeacons = request.form.get('a_canPushBeacons', '')
+            a_canParkCenter = request.form.get('a_canParkCenter', '')
+            a_canParkCorner = request.form.get('a_canParkCorner', '')
+            t_canScoreCenter = request.form.get('t_canScoreCenter', '')
+            t_canScoreCorner = request.form.get('t_canScoreCorner', '')
+            t_canPushBeacons = request.form.get('t_canPushBeacons', '')
+            t_canLiftBall = request.form.get('t_canLiftBall', '')
+            notes = request.form.get('notes', '')
+            watchlist = request.form.get('watchlist', '')
+
+            pitscouting = PitScouting(
+                competitions=competition,
+                teams=team,
+                a_canScoreCenter=a_canScoreCenter,
+                a_canScoreCorner=a_canScoreCorner,
+                a_canMoveBall=a_canMoveBall,
+                a_canPushBeacons=a_canPushBeacons,
+                a_canParkCenter=a_canParkCenter,
+                a_canParkCorner=a_canParkCorner,
+                t_canScoreCenter=t_canScoreCenter,
+                t_canScoreCorner=t_canScoreCorner,
+                t_canPushBeacons=t_canPushBeacons,
+                t_canLiftBall=t_canLiftBall,
+                notes=notes,
+                watchlist=watchlist,
+                timestamp=datetime.datetime.now())
+
+            db.session.add(pitscouting)
+            db.session.commit()
+
+            flash('Pit scouting data added successfully')
+            return redirect(url_for('pit_scouting'))
+
+    elif request.method == 'GET':
+        return render_template('pit_scouting.html', form=form)
+
+
 @app.route('/teams', methods=['GET', 'POST'])
 @login_required
 def teams():
@@ -166,7 +302,34 @@ def teams():
 def team(id):
 
     team = db.session.query(Teams).filter(Teams.id == id).all()
-    return render_template('team.html', id=id, team=team)
+    competitions = db.session.query(Competitions).filter(Teams.id == id).all()
+
+    return render_template('team.html',
+                           id=id,
+                           team=team,
+                           competitions=competitions)
+
+
+@app.route('/teams/<int:team_id>/comp/<int:comp_id>', methods=['GET'])
+@login_required
+def team_scores_by_comp(team_id, comp_id):
+    team = db.session.query(Teams).filter(Teams.id == team_id).all()
+    comp = db.session.query(
+        Competitions).filter(Competitions.id == comp_id).all()
+    match_scores = db.session.query(
+        MatchScore).filter(
+        and_(Teams.id == team_id, Competitions.id == comp_id)).all()
+    pit_scouting = db.session.query(
+        PitScouting).filter(
+        and_(Teams.id == team_id, Competitions.id == comp_id)).all()
+
+    return render_template('team_scores.html',
+                           team_id=team_id,
+                           comp_id=comp_id,
+                           team=team,
+                           comp=comp,
+                           match_scores=match_scores,
+                           pit_scouting=pit_scouting)
 
 
 @app.route('/teams/delete/<int:id>', methods=['GET'])

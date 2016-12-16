@@ -1,100 +1,146 @@
-/**
- * Created by rahm on 2/14/16.
- */
+var a_center_counter=0;
+var a_corner_counter=0;
+var a_beacon_counter=0;
+var a_score_counter=0;
+var a_capball_previous;
+var a_park_previous;
+var t_center_counter=0;
+var t_corner_counter=0;
+var t_score_counter=0;
+var t_beacon_previous;
+var t_capball_previous;
+var total_score_counter=0;
 
-jQuery(document).ready(function() {
-    $("input#a_climbers").change(function () {
+$(document).ready(function() {
+    $("#a_center_incr").click(function(){
+        a_center_counter+=15;
+        a_score_counter+=15;
+        $("#a_center_vortex").val(a_center_counter);
+        $("#a_score").val(a_score_counter);
+        $('#a_score').trigger('change');
+    });
+    $("#a_center_decr").click(function(){
+        a_center_counter-=15;
+        a_score_counter-=15;
+        $("#a_center_vortex").val(a_center_counter);
+        $("#a_score").val(a_score_counter);
+        $('#a_score').trigger('change');
+    });
+    $("#a_corner_incr").click(function(){
+        a_corner_counter+=5;
+        a_score_counter+=5;
+        $("#a_corner_vortex").val(a_corner_counter);
+        $("#a_score").val(a_score_counter);
+        $('#a_score').trigger('change');
+    });
+    $("#a_corner_decr").click(function(){
+        a_corner_counter-=5;
+        a_score_counter-=5;
+        $("#a_corner_vortex").val(a_corner_counter);
+        $("#a_score").val(a_score_counter);
+        $('#a_score').trigger('change');
+    });
+    $("#a_beacon_incr").click(function(){
+        a_beacon_counter+=30;
+        a_score_counter+=30;
+        $("#a_beacon").val(a_beacon_counter);
+        $("#a_score").val(a_score_counter);
+        $('#a_score').trigger('change');
+    });
+    $("#a_beacon_decr").click(function(){
+        a_beacon_counter-=30;
+        a_score_counter-=30;
+        $("#a_beacon").val(a_beacon_counter);
+        $("#a_score").val(a_score_counter);
+        $('#a_score').trigger('change');
+    });
+
+    $("select[name=a_capball]").focus(function () {
+        a_capball_previous = this.value;
+    }).change(function() {
+        a_score_counter+=(this.value - a_capball_previous);
+        $("#a_score").val(a_score_counter);
+        $('#a_score').trigger('change');
+        a_capball_previous = this.value;
+    });
+
+    $("select[name=a_park]").focus(function () {
+        a_park_previous = this.value;
+    }).change(function() {
+        a_score_counter+=(this.value - a_park_previous);
+        $("#a_score").val(a_score_counter);
+        $('#a_score').trigger('change');
+        a_park_previous = this.value;
+    });
+
+    $("#t_center_incr").click(function(){
+        t_center_counter+=5;
+        t_score_counter+=5;
+        $("#t_center_vortex").val(t_center_counter);
+        $("#t_score").val(t_score_counter);
+        $('#t_score').trigger('change');
+    });
+    $("#t_center_decr").click(function(){
+        t_center_counter-=5;
+        t_score_counter-=5;
+        $("#t_center_vortex").val(t_center_counter);
+        $("#t_score").val(t_score_counter);
+        $('#t_score').trigger('change');
+    });
+    $("#t_corner_incr").click(function(){
+        t_corner_counter+=1;
+        t_score_counter+=1;
+        $("#t_corner_vortex").val(t_corner_counter);
+        $("#t_score").val(t_score_counter);
+        $('#t_score').trigger('change');
+    });
+    $("#t_corner_decr").click(function(){
+        t_corner_counter-=1;
+        t_score_counter-=1;
+        $("#t_corner_vortex").val(t_corner_counter);
+        $("#t_score").val(t_score_counter);
+        $('#t_score').trigger('change');
+    });
+
+    $("select[name=t_beacon]").focus(function () {
+        t_beacon_previous = this.value;
+    }).change(function() {
+        t_score_counter+=(this.value - t_beacon_previous);
+        $("#t_score").val(t_score_counter);
+        $('#t_score').trigger('change');
+        t_beacon_previous = this.value;
+    });
+
+    $("select[name=t_capball]").focus(function () {
+        t_capball_previous = this.value;
+    }).change(function() {
+        t_score_counter+=(this.value - t_capball_previous);
+        $("#t_score").val(t_score_counter);
+        $('#t_score').trigger('change');
+        t_capball_previous = this.value;
+    });
+
+    $("#a_score").change(function(){
+        total_score_counter = parseInt(this.value) + parseInt($("#t_score").val());
+        console.log("Total Score: " + total_score_counter);
+        $("#total_score").val(total_score_counter);
+    });
+    $("#t_score").change(function(){
+        total_score_counter = parseInt(this.value) + parseInt($("#a_score").val());
+        console.log("Total Score: " + total_score_counter);
+        $("#total_score").val(total_score_counter);
+    });
+
+    // hide advanced scoring fields
+    $("input#adv_metrics").change(function () {
         if (this.checked) {
-            $('div#a_climbers_acc.form-group').show();
+            $('div#particle_speed.form-group').show();
+            $('div#capball_speed.form-group').show();
+            $('div#match_notes.form-group').show();
         } else {
-            $('div#a_climbers_acc.form-group').hide();
+            $('div#particle_speed.form-group').hide();
+            $('div#capball_speed.form-group').hide();
+            $('div#match_notes.form-group').hide();
         }
-    });
-    $("input#a_midpark").change(function () {
-        if (this.checked) {
-            $('div#a_midpark_acc.form-group').show();
-        } else {
-            $('div#a_midpark_acc.form-group').hide();
-        }
-    });
-    $("input#a_highpark").change(function () {
-        if (this.checked) {
-            $('div#a_highpark_acc.form-group').show();
-        } else {
-            $('div#a_highpark_acc.form-group').hide();
-        }
-    });
-    $("input#t_climbers").change(function () {
-        if (this.checked) {
-            $('div#t_climbers_acc.form-group').show();
-        } else {
-            $('div#t_climbers_acc.form-group').hide();
-        }
-    });
-    $("input#lowclimber").change(function () {
-        if (this.checked) {
-            $('div#lowclimber_acc.form-group').show();
-        } else {
-            $('div#lowclimber_acc.form-group').hide();
-        }
-    });
-    $("input#midclimber").change(function () {
-        if (this.checked) {
-            $('div#midclimber_acc.form-group').show();
-        } else {
-            $('div#midclimber_acc.form-group').hide();
-        }
-    });
-    $("input#highclimber").change(function () {
-        if (this.checked) {
-            $('div#highclimber_acc.form-group').show();
-        } else {
-            $('div#highclimber_acc.form-group').hide();
-        }
-    });
-    $("input#t_midpark").change(function () {
-        if (this.checked) {
-            $('div#t_midpark_acc.form-group').show();
-        } else {
-            $('div#t_midpark_acc.form-group').hide();
-        }
-    });
-    $("input#t_highpark").change(function () {
-        if (this.checked) {
-            $('div#t_highpark_acc.form-group').show();
-        } else {
-            $('div#t_highpark_acc.form-group').hide();
-        }
-    });
-    $('input#a_climbers').change(function () {
-        if (this.checked) {
-            $('input#t_climbers').prop("disabled", true);
-        } else {
-            $('input#t_climbers').prop("disabled", false);
-        }
-    });
-    $('input#t_climbers').change(function () {
-        if (this.checked) {
-            $('input#a_climbers').prop("disabled", true);
-        } else {
-            $('input#a_climbers').prop("disabled", false);
-        }
-    });
-    $('select#t_park').change(function () {
-        if ($('option:selected',this).val() != 0) {
-            $('input#hang').prop("disabled", true);
-        } else {
-            $('input#hang').prop("disabled", false);
-        }
-    });
-    $('input#hang').change(function () {
-        if (this.checked) {
-            $('select#t_park').prop("disabled", true);
-        } else {
-            $('select#t_park').prop("disabled", false);
-        }
-    });
-    $("form#match_scouting.form-horizontal").submit(function() {
-    $("select#t_park").prop("disabled", false);
     });
 });

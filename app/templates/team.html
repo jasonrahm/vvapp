@@ -1,7 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
   <div class="jumbo">
-    <h2>Team: {{ team }}<h2>
+    {% for x in team %}
+    <h2>{{ x.name }}<h2>
+        {% endfor %}
   </div>
+    <hr size="5">
+    <h4>Competitions</h4>
+    <ul class="list-group">
+    {% for x in competitions %}
+    <li class="list-group-item"><a href="{{ url_for('team_scores_by_comp', team_id = team[0].id, comp_id = x.id) }}">{{  x.name }}</a></li>
+    </ul>
+    {% endfor %}
 
 {% endblock %}

@@ -59,6 +59,144 @@ class CompetitionTeam(db.Model):
                                                self.teams)
 
 
+class MatchScore(db.Model):
+    __tablename__ = 'MatchScores'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    teams = db.Column(db.ForeignKey('Teams.id'), index=True)
+    competitions = db.Column(db.ForeignKey('Competitions.id'), index=True)
+    match_number = db.Column(db.String)
+    a_center_vortex = db.Column(db.Integer)
+    a_corner_vortex = db.Column(db.Integer)
+    a_beacon = db.Column(db.Integer)
+    a_capball = db.Column(db.Integer)
+    a_park = db.Column(db.Integer)
+    t_center_vortex = db.Column(db.Integer)
+    t_corner_vortex = db.Column(db.Integer)
+    t_beacon = db.Column(db.Integer)
+    t_capball = db.Column(db.Integer)
+    a_score = db.Column(db.Integer)
+    t_score = db.Column(db.Integer)
+    total_score = db.Column(db.Integer)
+    particle_speed = db.Column(db.Integer)
+    capball_speed = db.Column(db.Integer)
+    match_notes = db.Column(db.String(500))
+    created_timestamp = db.Column(db.DateTime, default=datetime.datetime.now)
+    modified_timestamp = db.Column(
+        db.DateTime,
+        default=datetime.datetime.now,
+        onupdate=datetime.datetime.now)
+
+    competition = db.relationship('Competitions')
+    team = db.relationship('Teams')
+
+    def __init__(self,
+                 teams,
+                 competitions,
+                 match_number,
+                 a_center_vortex,
+                 a_corner_vortex,
+                 a_beacon,
+                 a_capball,
+                 a_park,
+                 t_center_vortex,
+                 t_corner_vortex,
+                 t_beacon,
+                 t_capball,
+                 a_score,
+                 t_score,
+                 total_score,
+                 particle_speed,
+                 capball_speed,
+                 match_notes,
+                 timestamp):
+        self.teams = teams
+        self.competitions = competitions
+        self.match_number = match_number
+        self.a_center_vortex = a_center_vortex
+        self.a_corner_vortex = a_corner_vortex
+        self.a_beacon = a_beacon
+        self.a_capball = a_capball
+        self.a_park = a_park
+        self.t_center_vortex = t_center_vortex
+        self.t_corner_vortex = t_corner_vortex
+        self.t_beacon = t_beacon
+        self.t_capball = t_capball
+        self.a_score = a_score
+        self.t_score = t_score
+        self.total_score = total_score
+        self.particle_speed = particle_speed
+        self.capball_speed = capball_speed
+        self.match_notes = match_notes
+        self.created_timestamp = timestamp
+
+    def __repr__(self):
+        return '<MatchScore %r %r %r>' % (self.id, self.teams, self.total_score)
+
+
+class PitScouting(db.Model):
+    __tablename__ = 'PitScouting1'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    teams = db.Column(db.ForeignKey('Teams.id'), index=True)
+    competitions = db.Column(db.ForeignKey('Competitions.id'), index=True)
+    a_canScoreCenter = db.Column(db.Boolean)
+    a_canScoreCorner = db.Column(db.Boolean)
+    a_canMoveBall = db.Column(db.Boolean)
+    a_canPushBeacons = db.Column(db.Boolean)
+    a_canParkCenter = db.Column(db.Boolean)
+    a_canParkCorner = db.Column(db.Boolean)
+    t_canScoreCenter = db.Column(db.Boolean)
+    t_canScoreCorner = db.Column(db.Boolean)
+    t_canPushBeacons = db.Column(db.Boolean)
+    t_canLiftBall = db.Column(db.Boolean)
+    notes = db.Column(db.String(500))
+    watchlist = db.Column(db.Boolean)
+    created_timestamp = db.Column(db.DateTime, default=datetime.datetime.now)
+    modified_timestamp = db.Column(
+        db.DateTime,
+        default=datetime.datetime.now,
+        onupdate=datetime.datetime.now)
+
+    competition = db.relationship('Competitions')
+    team = db.relationship('Teams')
+
+    def __init__(self,
+                 teams,
+                 competitions,
+                 a_canScoreCenter,
+                 a_canScoreCorner,
+                 a_canMoveBall,
+                 a_canPushBeacons,
+                 a_canParkCenter,
+                 a_canParkCorner,
+                 t_canScoreCenter,
+                 t_canScoreCorner,
+                 t_canPushBeacons,
+                 t_canLiftBall,
+                 notes,
+                 watchlist,
+                 timestamp):
+        self.teams = teams
+        self.competitions = competitions
+        self.a_canScoreCenter = a_canScoreCenter
+        self.a_canScoreCorner = a_canScoreCorner
+        self.a_canMoveBall = a_canMoveBall
+        self.a_canPushBeacons = a_canPushBeacons
+        self.a_canParkCenter = a_canParkCenter
+        self.a_canParkCorner = a_canParkCorner
+        self.t_canScoreCenter = t_canScoreCenter
+        self.t_canScoreCorner = t_canScoreCorner
+        self.t_canPushBeacons = t_canPushBeacons
+        self.t_canLiftBall = t_canLiftBall
+        self.notes = notes
+        self.watchlist = watchlist
+        self.created_timestamp = timestamp
+
+    def __repr__(self):
+        return '<PitScouting %r %r %r>' % (self.id, self.teams, self.competitions)
+
+
 class Teams(db.Model):
     __tablename__ = 'Teams'
 

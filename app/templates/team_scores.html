@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h2>{{ team[0].name }} team data</h2>
+    <h3>{{ comp[0].name }}</h3>
+
+    <table class="table table-responsive">
+    <caption>Pit Scouting</caption>
+    <tr>
+        <th>A-CenterVortex</th>
+        <th>A-CornerVortex</th>
+        <th>A-MoveBall</th>
+        <th>A-PushBeacon</th>
+        <th>A-ParkCenter</th>
+        <th>A-ParkCorner</th>
+        <th>T-CenterVortex</th>
+        <th>T-CornerVortex</th>
+        <th>T-PushBeacon</th>
+        <th>T-LiftBall</th>
+        <th>Notes</th>
+        <th>Watchlist</th>
+    </tr>
+    {% for x in pit_scouting %}
+    <tr>
+    <td>{{ x.a_canScoreCenter }}</td>
+    <td>{{ x.a_canScoreCorner }}</td>
+    <td>{{ x.a_canMoveBall }}</td>
+    <td>{{ x.a_canPushBeacons }}</td>
+    <td>{{ x.a_canParkCenter }}</td>
+    <td>{{ x.a_canParkCorner }}</td>
+    <td>{{ x.t_canScoreCenter }}</td>
+    <td>{{ x.t_canScoreCorner }}</td>
+    <td>{{ x.t_canPushBeacons }}</td>
+    <td>{{ x.t_canLiftBall }}</td>
+    <td>{{ x.notes }}</td>
+    <td>{{ x.watchlist }}</td>
+    </tr>
+    {% endfor %}
+
+
+    <table class="table table-responsive">
+    <caption>Match Scores</caption>
+    <tr>
+        <th>Match Number</th>
+        <th>Total Score</th>
+        <th>Autonomous Score</th>
+        <th>Teleop Score</th>
+    </tr>
+    {% for x in match_scores %}
+        <tr>
+        <td>{{ x.match_number }}</td>
+        <td>{{ x.total_score }}</td>
+        <td>{{ x.a_score }}</td>
+        <td>{{ x.t_score }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+
+
+{% endblock %}

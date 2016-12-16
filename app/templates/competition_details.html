@@ -30,12 +30,14 @@
             <tr>
                 <th>Team Number</th>
                 <th>Team Name</th>
+                <th>Actions</th>
             </tr>
         </thead>
         {% for team in team_data %}
             <tr>
-                <td>{{ team.number }}</td>
+                <td><a href="{{ url_for('team', id = team.id) }}">{{  team.number }}</a></td>
                 <td>{{ team.name }}</td>
+                <td><a href="{{ url_for('delete_team_from_comp', comp_id = id, team_id = team.id) }}">Delete</a></td>
             </tr>
         {%  endfor %}
     </table>
