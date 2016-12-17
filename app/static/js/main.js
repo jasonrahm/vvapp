@@ -11,7 +11,7 @@ var t_beacon_previous;
 var t_capball_previous;
 var total_score_counter=0;
 
-$(document).ready(function() {
+jQuery(document).ready(function() {
     $("#a_center_incr").click(function(){
         a_center_counter+=15;
         a_score_counter+=15;
