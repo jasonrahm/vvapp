@@ -27,16 +27,18 @@ h5 {
     -moz-appearance: textfield;
 }
 
+#pit_scouting #notes input[type=text],
 #scoring #match_notes input[type=text] {
     width: 200px;
     height: 75px;
 }
 
-
+#pit_scouting .form-group,
 #scoring .form-group {
     padding-left: 5px;
     padding-right: 5px;
 }
+
 #scoring .form-group input[type=number] {
     width: 42px;
     height: 42px;
