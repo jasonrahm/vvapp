@@ -16,8 +16,13 @@ from wtforms_sqlalchemy.fields import QuerySelectField
 
 
 class CompetitionsForm(FlaskForm):
-    name = StringField('Name', [validators.DataRequired('Please enter the competition name.')])
-    date = DateField('Date', [validators.DataRequired('Please enter the competition date.')], format='%Y-%m-%d')
+    name = StringField('Name',
+                       [validators.DataRequired(
+                           'Please enter the competition name.')])
+    date = DateField('Date',
+                     [validators.DataRequired(
+                         'Please enter the competition date.')],
+                     format='%Y-%m-%d')
     submit = SubmitField('Add Competition')
 
     def __init__(self, *args, **kwargs):
@@ -119,7 +124,10 @@ class MatchScoringForm(FlaskForm):
                                          (1, 'Between 10-20s'),
                                          (2, 'More than 20s')], coerce=int
                                 )
-    match_notes = StringField('Match Notes', [validators.Length(max=500, message='Max length 500 characters.')])
+    match_notes = StringField('Match Notes',
+                              [validators.Length(
+                                  max=500,
+                                  message='Max length 500 characters.')])
 
     submit = SubmitField('Add Score')
 
@@ -136,25 +144,68 @@ class PitScoutingForm(FlaskForm):
         query_factory=lambda: Competitions.query.all(), get_label='name')
     team = QuerySelectField(
         query_factory=lambda: Teams.query.all(), get_label='number')
-    a_canScoreCenter = BooleanField('Can you launch in the center vortex?')
-    a_canScoreCorner = BooleanField('Can you launch in the corner vortex?')
-    a_canMoveBall = BooleanField('Can you move the ball?')
-    a_canPushBeacons = BooleanField('Can you push beacons?')
-    a_canParkCenter = BooleanField('Can you park in the center?')
-    a_canParkCorner = BooleanField('Can you park in the corner?')
-    t_canScoreCenter = BooleanField('Can you launch in the center vortex?')
-    t_canScoreCorner = BooleanField('Can you launch in the corner vortex?')
-    t_canPushBeacons = BooleanField('Can you push beacons?')
-    t_canLiftBall = BooleanField('Can you lift the ball?')
-    notes = StringField('Notes', [validators.Length(max=500, message='Please limit to 500 characters.')])
+    drivetrain = SelectField('Type of Drivetrain',
+                             choices=[(1, 'Skid Steer'),
+                                      (2, 'Mechanum'),
+                                      (3, 'Holonomic'),
+                                      (4, 'Tank Treads'),
+                                      (5, 'Other')], coerce=int)
+    auto = BooleanField('Do they have autonomous?')
+    auto_defense = BooleanField('Do they play defense in autonomous?')
+    auto_compatible = BooleanField('Is their autonomous compatible with ours?')
+    a_center_balls = SelectField('Center vortex particles?',
+                                 choices=[(0, 'No particles'),
+                                          (1, '1 particle'),
+                                          (2, '2 particles'),
+                                          (3, '3+ particles')], coerce=int)
+    a_corner_balls = SelectField('Corner vortex particles?',
+                                 choices=[(0, 'No particles'),
+                                          (1, '1 particle'),
+                                          (2, '2 particles'),
+                                          (3, '3+ particles')], coerce=int)
+    a_capball = BooleanField('Can they knock the cap ball?')
+    a_beacons = SelectField('Beacons Claimed?',
+                                 choices=[(0, 'No beacons'),
+                                          (1, '1 beacon'),
+                                          (2, '2 beacons')], coerce=int)
+    a_park = SelectField('Parking location?',
+                                 choices=[(0, 'Floor'),
+                                          (1, 'Partially on Center'),
+                                          (1, 'Partially on Corner'),
+                                          (2, 'Fully on Center'),
+                                          (2, 'Fully on Corner')], coerce=int)
+    t_center_balls = SelectField('Center vortex particles?',
+                                 choices=[(0, 'No particles'),
+                                          (1, '1-3 particles'),
+                                          (2, '4-7 particles'),
+                                          (3, '8+ particles')], coerce=int)
+    t_corner_balls = SelectField('Corner vortex particles?',
+                                 choices=[(0, 'No particles'),
+                                          (1, '1-3 particles'),
+                                          (2, '4-7 particles'),
+                                          (3, '8+ particles')], coerce=int)
+    t_beacons = BooleanField('Can they push beacons?')
+    t_capball = SelectField('Can they lift the cap ball?',
+                            choices=[(0, 'No'),
+                                     (1, 'Low'),
+                                     (2, 'High'),
+                                     (3, 'Capped')], coerce=int)
+    notes = StringField('Notes',
+                        [validators.Length(
+                            max=500,
+                            message='Please limit to 500 characters.')])
     watchlist = BooleanField('Add to watchlist?')
 
     submit = SubmitField('Add Pit Report')
 
 
 class TeamForm(FlaskForm):
-    number = IntegerField('Number', [validators.DataRequired('Please enter the team number.')])
-    name = StringField('Name', [validators.DataRequired('Please enter the team name.')])
+    number = IntegerField('Number',
+                          [validators.DataRequired(
+                              'Please enter the team number.')])
+    name = StringField('Name',
+                       [validators.DataRequired(
+                           'Please enter the team name.')])
     submit = SubmitField('Add Team')
 
     def __init__(self, *args, **kwargs):

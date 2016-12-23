@@ -42,22 +42,28 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        {{ form.a_canScoreCenter.label }} {{ form.a_canScoreCenter }}
+                        {{ form.auto.label }} {{ form.auto }}
                     </div>
                     <div class="form-group">
-                        {{ form.a_canScoreCorner.label }} {{ form.a_canScoreCorner }}
+                        {{ form.auto_defense.label }} {{ form.auto_defense }}
                     </div>
                     <div class="form-group">
-                        {{ form.a_canMoveBall.label }} {{ form.a_canMoveBall }}
+                        {{ form.auto_compatible.label }} {{ form.auto_compatible }}
                     </div>
                     <div class="form-group">
-                        {{ form.a_canPushBeacons.label }} {{ form.a_canPushBeacons }}
+                        {{ form.a_center_balls.label }} {{ form.a_center_balls }}
                     </div>
                     <div class="form-group">
-                        {{ form.a_canParkCenter.label }} {{ form.a_canParkCenter }}
+                        {{ form.a_corner_balls.label }} {{ form.a_corner_balls }}
                     </div>
                     <div class="form-group">
-                        {{ form.a_canParkCorner.label }} {{ form.a_canParkCorner }}
+                        {{ form.a_capball.label }} {{ form.a_capball }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.a_beacons.label }} {{ form.a_beacons }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.a_park.label }} {{ form.a_park }}
                     </div>
                 </div>
 
@@ -72,16 +78,16 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        {{ form.t_canScoreCenter.label }} {{ form.t_canScoreCenter }}
+                        {{ form.t_center_balls.label }} {{ form.t_center_balls }}
                     </div>
                     <div class="form-group">
-                        {{ form.t_canScoreCorner.label }} {{ form.t_canScoreCorner }}
+                        {{ form.t_corner_balls.label }} {{ form.t_corner_balls }}
                     </div>
                     <div class="form-group">
-                        {{ form.t_canPushBeacons.label }} {{ form.t_canPushBeacons }}
+                        {{ form.t_beacons.label }} {{ form.t_beacons }}
                     </div>
                     <div class="form-group">
-                        {{ form.t_canLiftBall.label }} {{ form.t_canLiftBall }}
+                        {{ form.t_capball.label }} {{ form.t_capball }}
                     </div>
                 </div>
 
@@ -96,7 +102,10 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        {{ form.notes }}
+                        {{ form.notes.label }} {{ form.notes }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.drivetrain.label }} {{ form.drivetrain }}
                     </div>
                     <div class="form-group">
                         {{ form.watchlist.label }} {{ form.watchlist }}

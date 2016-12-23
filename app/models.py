@@ -135,21 +135,24 @@ class MatchScore(db.Model):
 
 
 class PitScouting(db.Model):
-    __tablename__ = 'PitScouting1'
+    __tablename__ = 'PitScouting'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     teams = db.Column(db.ForeignKey('Teams.id'), index=True)
     competitions = db.Column(db.ForeignKey('Competitions.id'), index=True)
-    a_canScoreCenter = db.Column(db.Boolean)
-    a_canScoreCorner = db.Column(db.Boolean)
-    a_canMoveBall = db.Column(db.Boolean)
-    a_canPushBeacons = db.Column(db.Boolean)
-    a_canParkCenter = db.Column(db.Boolean)
-    a_canParkCorner = db.Column(db.Boolean)
-    t_canScoreCenter = db.Column(db.Boolean)
-    t_canScoreCorner = db.Column(db.Boolean)
-    t_canPushBeacons = db.Column(db.Boolean)
-    t_canLiftBall = db.Column(db.Boolean)
+    drivetrain = db.Column(db.String(50))
+    auto = db.Column(db.Boolean)
+    auto_defense = db.Column(db.Boolean)
+    auto_compatible = db.Column(db.Boolean)
+    a_center_balls = db.Column(db.Integer)
+    a_corner_balls = db.Column(db.Integer)
+    a_capball = db.Column(db.Boolean)
+    a_beacons = db.Column(db.Integer)
+    a_park = db.Column(db.Boolean)
+    t_center_balls = db.Column(db.Integer)
+    t_corner_balls = db.Column(db.Integer)
+    t_beacons = db.Column(db.Boolean)
+    t_capball = db.Column(db.Integer)
     notes = db.Column(db.String(500))
     watchlist = db.Column(db.Boolean)
     created_timestamp = db.Column(db.DateTime, default=datetime.datetime.now)
@@ -164,37 +167,45 @@ class PitScouting(db.Model):
     def __init__(self,
                  teams,
                  competitions,
-                 a_canScoreCenter,
-                 a_canScoreCorner,
-                 a_canMoveBall,
-                 a_canPushBeacons,
-                 a_canParkCenter,
-                 a_canParkCorner,
-                 t_canScoreCenter,
-                 t_canScoreCorner,
-                 t_canPushBeacons,
-                 t_canLiftBall,
+                 drivetrain,
+                 auto,
+                 auto_defense,
+                 auto_compatible,
+                 a_center_balls,
+                 a_corner_balls,
+                 a_capball,
+                 a_beacons,
+                 a_park,
+                 t_center_balls,
+                 t_corner_balls,
+                 t_beacons,
+                 t_capball,
                  notes,
                  watchlist,
                  timestamp):
         self.teams = teams
         self.competitions = competitions
-        self.a_canScoreCenter = a_canScoreCenter
-        self.a_canScoreCorner = a_canScoreCorner
-        self.a_canMoveBall = a_canMoveBall
-        self.a_canPushBeacons = a_canPushBeacons
-        self.a_canParkCenter = a_canParkCenter
-        self.a_canParkCorner = a_canParkCorner
-        self.t_canScoreCenter = t_canScoreCenter
-        self.t_canScoreCorner = t_canScoreCorner
-        self.t_canPushBeacons = t_canPushBeacons
-        self.t_canLiftBall = t_canLiftBall
+        self.drivetrain = drivetrain
+        self.auto = auto
+        self.auto_defense = auto_defense
+        self.auto_compatible = auto_compatible
+        self.a_center_balls = a_center_balls
+        self.a_corner_balls = a_corner_balls
+        self.a_capball = a_capball
+        self.a_beacons = a_beacons
+        self.a_park = a_park
+        self.t_center_balls = t_center_balls
+        self.t_corner_balls = t_corner_balls
+        self.t_beacons = t_beacons
+        self.t_capball = t_capball
         self.notes = notes
         self.watchlist = watchlist
         self.created_timestamp = timestamp
 
     def __repr__(self):
-        return '<PitScouting %r %r %r>' % (self.id, self.teams, self.competitions)
+        return '<PitScouting %r %r %r>' % (self.id,
+                                           self.teams,
+                                           self.competitions)
 
 
 class Teams(db.Model):
