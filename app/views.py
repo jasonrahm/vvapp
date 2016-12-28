@@ -216,14 +216,24 @@ def match_scoring():
         return render_template('match_scoring.html', form=form)
 
 
-@app.route('/pit-scouting', methods=['GET', 'POST'])
+@app.route('/pit-scouting/', defaults={'comp': 2})
+@app.route('/pit-scouting/competitions/<int:comp>', methods=['GET', 'POST'])
 @login_required
-def pit_scouting():
+def pit_scouting(comp):
     form = PitScoutingForm(request.values)
     form.competition.choices = [(a.id, a.name) for a in
                                 Competitions.query.order_by('name')]
-    form.team.choices = [(a.id, a.number) for a in
-                         Teams.query.order_by('number')]
+
+    sql_text = '''SELECT *
+      FROM
+        CompetitionTeams ct
+      INNER JOIN
+        Teams t ON ct.teams = t.id
+      WHERE
+        ct.competitions = {}'''.format(comp)
+    result = db.engine.execute(sql_text)
+
+    form.team.choices = [(a.id, a.number) for a in result]
 
     if request.method == 'POST':
         if not form.validate():

@@ -139,11 +139,15 @@ class MatchScoringForm(FlaskForm):
     #         return False
 
 
+# class PitReportingForm(FlaskForm):
+
+
 class PitScoutingForm(FlaskForm):
     competition = QuerySelectField(
         query_factory=lambda: Competitions.query.all(), get_label='name')
-    team = QuerySelectField(
-        query_factory=lambda: Teams.query.all(), get_label='number')
+    # team = QuerySelectField(
+    #     query_factory=lambda: Teams.query.all(), get_label='number')
+    team = SelectField('Team', coerce=int)
     drivetrain = SelectField('Type of Drivetrain',
                              choices=[(1, 'Skid Steer'),
                                       (2, 'Mechanum'),
@@ -197,6 +201,10 @@ class PitScoutingForm(FlaskForm):
     watchlist = BooleanField('Add to watchlist?')
 
     submit = SubmitField('Add Pit Report')
+
+    def __init__(self, *args, **kwargs):
+        super(PitScoutingForm, self).__init__(*args, **kwargs)
+        self.team.choices = [(a.id, a.number) for a in Teams.query.order_by('number')]
 
 
 class TeamForm(FlaskForm):
