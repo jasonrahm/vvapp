@@ -143,10 +143,6 @@ class MatchScoringForm(FlaskForm):
 
 
 class PitScoutingForm(FlaskForm):
-    competition = QuerySelectField(
-        query_factory=lambda: Competitions.query.all(), get_label='name')
-    # team = QuerySelectField(
-    #     query_factory=lambda: Teams.query.all(), get_label='number')
     team = SelectField('Team', coerce=int)
     drivetrain = SelectField('Type of Drivetrain',
                              choices=[(1, 'Skid Steer'),

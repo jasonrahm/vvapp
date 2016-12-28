@@ -216,13 +216,11 @@ def match_scoring():
         return render_template('match_scoring.html', form=form)
 
 
-@app.route('/pit-scouting/', defaults={'comp': 2})
+@app.route('/pit-scouting/', defaults={'comp': 2}, methods=['GET', 'POST'])
 @app.route('/pit-scouting/competitions/<int:comp>', methods=['GET', 'POST'])
 @login_required
 def pit_scouting(comp):
     form = PitScoutingForm(request.values)
-    form.competition.choices = [(a.id, a.name) for a in
-                                Competitions.query.order_by('name')]
 
     sql_text = '''SELECT *
       FROM
@@ -240,7 +238,6 @@ def pit_scouting(comp):
             return render_template('pit_scouting.html', form=form)
         else:
             # Put Code to process form and add to DB here
-            competition = request.form.get('competition', '')
             team = request.form.get('team', '')
             drivetrain = request.form.get('drivetrain', '')
             auto = request.form.get('auto', '')
@@ -259,7 +256,7 @@ def pit_scouting(comp):
             watchlist = request.form.get('watchlist', '')
 
             pitscouting = PitScouting(
-                competitions=competition,
+                competitions=comp,
                 teams=team,
                 drivetrain=drivetrain,
                 auto=auto,
