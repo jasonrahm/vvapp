@@ -37,21 +37,22 @@ class CompetitionsForm(FlaskForm):
 
 class CompetitionTeamForm(FlaskForm):
     competition = HiddenField('competition')
-    team = QuerySelectField(query_factory=lambda: Teams.query.all(),
-                            get_label='number')
+    team = SelectField('Team', coerce=int)
     submit = SubmitField('Add Team')
 
     def __init__(self, *args, **kwargs):
-        FlaskForm.__init__(self, *args, **kwargs)
+        super(CompetitionTeamForm, self).__init__(*args, **kwargs)
+        self.team.choices = [(a.id, a.number) for a in Teams.query.order_by('number')]
 
     def validate(self):
         if not FlaskForm.validate(self):
             return False
 
         comp = Competitions.query.filter_by(name=self.competition).first()
+        print self.team.data
         checkteam = CompetitionTeam.query.filter(
             (CompetitionTeam.competitions == comp.id) &
-            (CompetitionTeam.teams == self.team.data.id)).first()
+            (CompetitionTeam.teams == self.team.data)).first()
         if checkteam:
             self.team.errors.append("Team is already part of this competition")
             return False

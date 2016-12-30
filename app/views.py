@@ -70,7 +70,6 @@ def manage_competition(id):
     form = CompetitionTeamForm(request.values, competition=id)
     comp = Competitions.query.get(id)
     form.competition = comp.name
-    form.team.choices = [(a.id, a.number) for a in Teams.query.all()]
 
     teams = db.session.query(CompetitionTeam).filter(
         CompetitionTeam.competitions == id).all()
