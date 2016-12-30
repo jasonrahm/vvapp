@@ -81,10 +81,7 @@ class LoginForm(FlaskForm):
 
 
 class MatchScoringForm(FlaskForm):
-    competition = QuerySelectField(
-        query_factory=lambda: Competitions.query.all(), get_label='name')
-    team = QuerySelectField(
-        query_factory=lambda: Teams.query.all(), get_label='number')
+    team = SelectField('Team', coerce=int)
     match_number = StringField('Match Number')
     a_center_vortex = IntegerField('Center Vortex Score', default=0)
     a_corner_vortex = IntegerField('Corner Vortex Score', default=0)
@@ -130,6 +127,10 @@ class MatchScoringForm(FlaskForm):
                                   message='Max length 500 characters.')])
 
     submit = SubmitField('Add Score')
+
+    def __init__(self, *args, **kwargs):
+        super(MatchScoringForm, self).__init__(*args, **kwargs)
+        self.team.choices = [(a.id, a.number) for a in Teams.query.order_by('number')]
 
     # def __init__(self, *args, **kwargs):
     #     Form.__init__(self, *args, **kwargs)

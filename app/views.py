@@ -154,20 +154,27 @@ def logout():
     return redirect(request.args.get('next') or url_for('index'))
 
 
-@app.route('/match-scoring', methods=['GET', 'POST'])
+@app.route('/match-scoring/', defaults={'comp': 2}, methods=['GET', 'POST'])
+@app.route('/match-scoring/competitions/<int:comp>', methods=['GET', 'POST'])
 @login_required
-def match_scoring():
+def match_scoring(comp):
     form = MatchScoringForm(request.values)
-    form.competition.choices = [(a.id, a.name) for a in
-                                Competitions.query.order_by('name')]
-    form.team.choices = [(a.id, a.number) for a in
-                         Teams.query.order_by('number')]
+
+    sql_text = '''SELECT *
+          FROM
+            CompetitionTeams ct
+          INNER JOIN
+            Teams t ON ct.teams = t.id
+          WHERE
+            ct.competitions = {}'''.format(comp)
+    result = db.engine.execute(sql_text)
+
+    form.team.choices = [(a.id, a.number) for a in result]
 
     if request.method == 'POST':
         if not form.validate():
             return render_template('match_scoring.html', form=form)
         else:
-            competition = request.form.get('competition', '')
             team = request.form.get('team', '')
             match_number = request.form.get('match_number', '')
             a_center_vortex = request.form.get('a_center_vortex', '')
@@ -188,7 +195,7 @@ def match_scoring():
 
             matchscore = MatchScore(
                 teams=team,
-                competitions=competition,
+                competitions=comp,
                 match_number=match_number,
                 a_center_vortex=a_center_vortex,
                 a_corner_vortex=a_corner_vortex,
