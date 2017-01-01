@@ -42,7 +42,8 @@ class CompetitionTeamForm(FlaskForm):
 
     def __init__(self, *args, **kwargs):
         super(CompetitionTeamForm, self).__init__(*args, **kwargs)
-        self.team.choices = [(a.id, a.number) for a in Teams.query.order_by('number')]
+        self.team.choices = [
+            (a.id, a.number) for a in Teams.query.order_by('number')]
 
     def validate(self):
         if not FlaskForm.validate(self):
@@ -131,7 +132,8 @@ class MatchScoringForm(FlaskForm):
 
     def __init__(self, *args, **kwargs):
         super(MatchScoringForm, self).__init__(*args, **kwargs)
-        self.team.choices = [(a.id, a.number) for a in Teams.query.order_by('number')]
+        self.team.choices = [
+            (a.id, a.number) for a in Teams.query.order_by('number')]
 
     # def __init__(self, *args, **kwargs):
     #     Form.__init__(self, *args, **kwargs)
@@ -141,7 +143,101 @@ class MatchScoringForm(FlaskForm):
     #         return False
 
 
-# class PitReportingForm(FlaskForm):
+class PitReportingForm(FlaskForm):
+    drivetrain = SelectField('Drivetrain',
+                             choices=[(0, 'Ignore'),
+                                      (1, 'Important'),
+                                      (3, 'Very Important'),
+                                      (9, 'Critical')],
+                             coerce=int)
+    auto = SelectField('Autonomous',
+                       choices=[(0, 'Ignore'),
+                                (1, 'Important'),
+                                (3, 'Very Important'),
+                                (9, 'Critical')],
+                       coerce=int)
+    auto_defense = SelectField('Defense (auto)',
+                               choices=[(0, 'Ignore'),
+                                        (1, 'Important'),
+                                        (3, 'Very Important'),
+                                        (9, 'Critical')],
+                               coerce=int)
+    auto_compatible = SelectField('Compatible (auto)',
+                                  choices=[(0, 'Ignore'),
+                                           (1, 'Important'),
+                                           (3, 'Very Important'),
+                                           (9, 'Critical')],
+                                  coerce=int)
+    a_center = SelectField('Center vortex (auto)',
+                           choices=[(0, 'Ignore'),
+                                    (1, 'Important'),
+                                    (3, 'Very Important'),
+                                    (9, 'Critical')],
+                           coerce=int)
+    a_corner = SelectField('Corner vortex (auto)',
+                           choices=[(0, 'Ignore'),
+                                    (1, 'Important'),
+                                    (3, 'Very Important'),
+                                    (9, 'Critical')],
+                           coerce=int)
+    a_capball = SelectField('Capball (auto)',
+                            choices=[(0, 'Ignore'),
+                                     (1, 'Important'),
+                                     (3, 'Very Important'),
+                                     (9, 'Critical')],
+                            coerce=int)
+    a_beacons = SelectField('Beacons (auto)',
+                            choices=[(0, 'Ignore'),
+                                     (1, 'Important'),
+                                     (3, 'Very Important'),
+                                     (9, 'Critical')],
+                            coerce=int)
+    a_park = SelectField('Parking position',
+                         choices=[(0, 'Ignore'),
+                                  (1, 'Important'),
+                                  (3, 'Very Important'),
+                                  (9, 'Critical')],
+                         coerce=int)
+    t_center = SelectField('Center vortex (teleop)',
+                           choices=[(0, 'Ignore'),
+                                    (1, 'Important'),
+                                    (3, 'Very Important'),
+                                    (9, 'Critical')],
+                           coerce=int)
+    t_corner = SelectField('Corner vortex (teleop)',
+                           choices=[(0, 'Ignore'),
+                                    (1, 'Important'),
+                                    (3, 'Very Important'),
+                                    (9, 'Critical')],
+                           coerce=int)
+    t_beacons = SelectField('Beacons (teleop)',
+                            choices=[(0, 'Ignore'),
+                                     (1, 'Important'),
+                                     (3, 'Very Important'),
+                                     (9, 'Critical')],
+                            coerce=int)
+    t_capball = SelectField('Capball (teleop)',
+                            choices=[(0, 'Ignore'),
+                                     (1, 'Important'),
+                                     (3, 'Very Important'),
+                                     (9, 'Critical')],
+                            coerce=int)
+    watchlist = SelectField('On Watchlist?',
+                            choices=[(0, 'Ignore'),
+                                     (1, 'Important'),
+                                     (3, 'Very Important'),
+                                     (9, 'Critical')],
+                            coerce=int)
+    submit = SubmitField('Run Report')
+
+    def __init__(self, *args, **kwargs):
+        FlaskForm.__init__(self, *args, **kwargs)
+
+    def validate(self):
+        if not FlaskForm.validate(self):
+            return False
+        else:
+            return True
 
 
 class PitScoutingForm(FlaskForm):
@@ -198,11 +294,12 @@ class PitScoutingForm(FlaskForm):
                             message='Please limit to 500 characters.')])
     watchlist = BooleanField('Add to watchlist?')
 
-    submit = SubmitField('Add Pit Report')
+    submit = SubmitField('Add Scouting Report')
 
     def __init__(self, *args, **kwargs):
         super(PitScoutingForm, self).__init__(*args, **kwargs)
-        self.team.choices = [(a.id, a.number) for a in Teams.query.order_by('number')]
+        self.team.choices = [
+            (a.id, a.number) for a in Teams.query.order_by('number')]
 
 
 class TeamForm(FlaskForm):

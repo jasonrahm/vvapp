@@ -5,38 +5,46 @@
     <h2>{{ team[0].name }} team data</h2>
     <h3>{{ comp[0].name }}</h3>
 
-    <table class="table table-responsive">
+    <table class="table table-responsive" id="pit_report">
     <caption>Pit Scouting</caption>
     <tr>
-        <th>A-CenterVortex</th>
-        <th>A-CornerVortex</th>
-        <th>A-MoveBall</th>
-        <th>A-PushBeacon</th>
-        <th>A-ParkCenter</th>
-        <th>A-ParkCorner</th>
-        <th>T-CenterVortex</th>
-        <th>T-CornerVortex</th>
-        <th>T-PushBeacon</th>
-        <th>T-LiftBall</th>
+        <th>Drivetrain</th>
+        <th>Autonomous</th>
+        <th>Defense (auto)</th>
+        <th>Compatibility (auto)</th>
+        <th>Center Vortex (auto)</th>
+        <th>Corner Vortex (auto)</th>
+        <th>Cap Ball (auto)</th>
+        <th>Beacons (auto)</th>
+        <th>Parking (auto)</th>
+        <th>Center Vortex (teleop)</th>
+        <th>Corner Vortex (teleop)</th>
+        <th>Beacons (teleop)</th>
+        <th>Cap Ball (teleop)</th>
         <th>Notes</th>
         <th>Watchlist</th>
     </tr>
     {% for x in pit_scouting %}
     <tr>
-    <td>{{ x.a_canScoreCenter }}</td>
-    <td>{{ x.a_canScoreCorner }}</td>
-    <td>{{ x.a_canMoveBall }}</td>
-    <td>{{ x.a_canPushBeacons }}</td>
-    <td>{{ x.a_canParkCenter }}</td>
-    <td>{{ x.a_canParkCorner }}</td>
-    <td>{{ x.t_canScoreCenter }}</td>
-    <td>{{ x.t_canScoreCorner }}</td>
-    <td>{{ x.t_canPushBeacons }}</td>
-    <td>{{ x.t_canLiftBall }}</td>
+    <td>{{ x.drivetrain }}</td>
+    <td>{{ x.auto }}</td>
+    <td>{{ x.auto_defense }}</td>
+    <td>{{ x.auto_compatible }}</td>
+    <td>{{ x.a_center_balls }}</td>
+    <td>{{ x.a_corner_balls }}</td>
+    <td>{{ x.a_capball }}</td>
+    <td>{{ x.a_beacons }}</td>
+    <td>{{ x.a_park }}</td>
+    <td>{{ x.t_center_balls }}</td>
+    <td>{{ x.t_corner_balls }}</td>
+    <td>{{ x.t_beacons }}</td>
+    <td>{{ x.t_capball }}</td>
     <td>{{ x.notes }}</td>
     <td>{{ x.watchlist }}</td>
     </tr>
     {% endfor %}
+    </table>
+    <p><a href="#" id="pit_report"><strong>Pivot Scouting Data Table</strong></a></p>
 
 
     <table class="table table-responsive">

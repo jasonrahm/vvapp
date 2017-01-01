@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+      <h3>Teams to Watch</h3>
+    <h4 class="text-center">(By Score)</h4>
+    <table class="table table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>Team</th>
+            <th>Score</th>
+            <th>Get Individual Report</th>
+        </tr>
+    </thead>
+    {% for x in data %}
+        <tr>
+            <td>{{ x[2] }}: {{ x[1] }}</td>
+            <td>{{ x[3] }}</td>
+            <td><a href="{{  url_for('get_pit_report', id = x[0]) }}">Report Details</a></td>
+
+        </tr>
+    {% endfor %}
+    </table>
+
+{% endblock %}

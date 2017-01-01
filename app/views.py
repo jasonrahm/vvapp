@@ -13,6 +13,7 @@ from forms import CompetitionsForm
 from forms import CompetitionTeamForm
 from forms import LoginForm
 from forms import MatchScoringForm
+from forms import PitReportingForm
 from forms import PitScoutingForm
 from forms import TeamForm
 from models import db
@@ -220,6 +221,85 @@ def match_scoring(comp):
 
     elif request.method == 'GET':
         return render_template('match_scoring.html', form=form)
+
+
+@app.route('/pit-report', methods=['GET'])
+@login_required
+def pit_report():
+    data = session['pitreport']
+    if data == '':
+        redirect(url_for(pit_reporting))
+    else:
+        return render_template('pit_report.html', data=data)
+
+
+@app.route('/pit-report/<int:id>')
+@login_required
+def get_pit_report(id):
+    data = PitScouting.query.get(id)
+    return render_template('pit_report_details.html', data=data)
+
+
+@app.route('/pit-reporting/', defaults={'comp': 2}, methods=['GET', 'POST'])
+@app.route('/pit-reporting/competitions/<int:comp>', methods=['GET', 'POST'])
+@login_required
+def pit_reporting(comp):
+
+    form = PitReportingForm(request.values)
+
+    if request.method == 'POST':
+        if not form.validate():
+            return render_template('pit_reporting.html', form=form)
+        else:
+            postdata = request.values
+            sql_text = '''select PitScouting.id, Teams.name, Teams.number,
+                            (drivetrain*%d) +
+                            (auto*%d) +
+                            (auto_defense*%d) +
+                            (auto_compatible*%d) +
+                            (a_center_balls*%d) +
+                            (a_corner_balls*%d) +
+                            (a_capball*%d) +
+                            (a_beacons*%d) +
+                            (a_park*%d) +
+                            (t_center_balls*%d) +
+                            (t_corner_balls*%d) +
+                            (t_beacons*%d) +
+                            (t_capball*%d) +
+                            (watchlist*%d)
+                          As Score
+                          FROM PitScouting
+                          INNER JOIN Teams
+                            On PitScouting.teams = Teams.id
+                          WHERE competitions = %d
+                          ORDER BY Score
+                          DESC ''' % (int(postdata['drivetrain']),
+                                      int(postdata['auto']),
+                                      int(postdata['auto_defense']),
+                                      int(postdata['auto_compatible']),
+                                      int(postdata['a_center']),
+                                      int(postdata['a_corner']),
+                                      int(postdata['a_capball']),
+                                      int(postdata['a_beacons']),
+                                      int(postdata['a_park']),
+                                      int(postdata['t_center']),
+                                      int(postdata['t_corner']),
+                                      int(postdata['t_beacons']),
+                                      int(postdata['t_capball']),
+                                      int(postdata['watchlist']),
+                                      comp)
+            result = db.engine.execute(sql_text)
+            teams = []
+            for row in result:
+                teams.append([row[0], row[1], row[2], row[3]])
+
+            session['pitreport'] = teams
+
+            flash('Report Run Successfully.')
+            return redirect(url_for('pit_report'))
+
+    elif request.method == 'GET':
+        return render_template('pit_reporting.html', form=form)
 
 
 @app.route('/pit-scouting/', defaults={'comp': 2}, methods=['GET', 'POST'])

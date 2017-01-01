@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if form.errors %}
+    <ul>
+        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+            {% for error in field_errors %}
+                <li>{{ form[field_name].label }}: {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% endif %}
+
+
+  <h3>Pit Reporting Form</h3>
+  <form class="form-horizontal" action="{{ url_for('pit_reporting') }}" method="post">
+    {{ form.hidden_tag() }}
+    <div class="row">
+        <div class="col-md-12 col-sm-6 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title">Scouting Information</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        {{ form.drivetrain.label }} {{ form.drivetrain }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.watchlist.label }} {{ form.watchlist }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-6 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title">Autonomous</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        {{ form.auto.label }} {{ form.auto }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.auto_defense.label }} {{ form.auto_defense }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.auto_compatible.label }} {{ form.auto_compatible }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.a_center.label }} {{ form.a_center }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.a_corner.label }} {{ form.a_corner }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.a_capball.label }} {{ form.a_capball }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.a_beacons.label }} {{ form.a_beacons }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.a_park.label }} {{ form.a_park }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-6 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title">Teleop</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        {{ form.t_center.label }} {{ form.t_center }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.t_corner.label }} {{ form.t_corner }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.t_beacons.label }} {{ form.t_beacons }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.t_capball.label }} {{ form.t_capball }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12">{{ form.submit(class="form-control") }}</div>
+    </div>
+  </form>
+
+
+{% endblock %}

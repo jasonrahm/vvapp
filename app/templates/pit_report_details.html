@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <table class="table table-responsive" id="pit_report">
+    <caption>Pit Scouting</caption>
+    <tr>
+        <th>Drivetrain</th>
+        <th>Autonomous</th>
+        <th>Defense (auto)</th>
+        <th>Compatibility (auto)</th>
+        <th>Center Vortex (auto)</th>
+        <th>Corner Vortex (auto)</th>
+        <th>Cap Ball (auto)</th>
+        <th>Beacons (auto)</th>
+        <th>Parking (auto)</th>
+        <th>Center Vortex (teleop)</th>
+        <th>Corner Vortex (teleop)</th>
+        <th>Beacons (teleop)</th>
+        <th>Cap Ball (teleop)</th>
+        <th>Notes</th>
+        <th>Watchlist</th>
+    </tr>
+    <tr>
+    <td>{{ data.drivetrain }}</td>
+    <td>{{ data.auto }}</td>
+    <td>{{ data.auto_defense }}</td>
+    <td>{{ data.auto_compatible }}</td>
+    <td>{{ data.a_center_balls }}</td>
+    <td>{{ data.a_corner_balls }}</td>
+    <td>{{ data.a_capball }}</td>
+    <td>{{ data.a_beacons }}</td>
+    <td>{{ data.a_park }}</td>
+    <td>{{ data.t_center_balls }}</td>
+    <td>{{ data.t_corner_balls }}</td>
+    <td>{{ data.t_beacons }}</td>
+    <td>{{ data.t_capball }}</td>
+    <td>{{ data.notes }}</td>
+    <td>{{ data.watchlist }}</td>
+    </tr>
+    </table>
+    <p><a href="#" id="pit_report"><strong>Pivot Scouting Data Table</strong></a></p>
+
+
+{% endblock %}
