@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>vvapp</title>
+    <title>Velocity Vortex Scouting</title>
     <link rel="stylesheet" href="{{  url_for('static', filename='css/bootstrap.min.css') }}" media="screen">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <script src="{{  url_for('static', filename='js/jquery-3.1.1.min.js') }}"></script>
@@ -15,16 +15,17 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class=navbar-header">
-                <a class="navbar-brand">RR-Scout</a>
+                <a class="navbar-brand">VV-Scout</a>
             </div>
             <div>
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url_for('index') }}">Home</a></li>
                     {% if g.user.is_authenticated %}
-                    <li><a href="{{ url_for('competitions') }}">Competitions</a></li>
                     <li><a href="{{ url_for('teams') }}">Teams</a></li>
-                    <li><a href="{{ url_for('match_scoring') }}">Match Scoring</a></li>
-                    <li><a href="{{ url_for('pit_scouting') }}">Pit Scouting</a></li>
+                    <li><a href="{{ url_for('competitions') }}">Competitions</a></li>
+                    <li><a href="{{ url_for('pit_scouting') }}">Scouting</a></li>
+                    <li><a href="{{ url_for('match_scoring') }}">Scoring</a></li>
+                    <li><a href="{{ url_for('pit_reporting') }}">Reporting</a></li>
                     <li><a href="{{ url_for('logout', next=request.path) }}">Sign Out</a></li>
                     {% else %}
                     <li><a href="{{ url_for('login', next=request.path) }}">Sign In</a></li>
