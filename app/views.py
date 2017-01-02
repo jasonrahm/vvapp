@@ -16,7 +16,7 @@ from forms import MatchScoringForm
 from forms import PitReportingForm
 from forms import PitScoutingForm
 from forms import TeamForm
-import json
+# import json
 from models import db
 from models import Competitions
 from models import CompetitionTeam
@@ -24,7 +24,7 @@ from models import MatchScore
 from models import PitScouting
 from models import Teams
 from models import Users
-import requests
+# import requests
 from sqlalchemy import and_
 
 import datetime
