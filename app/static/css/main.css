@@ -33,6 +33,7 @@ h5 {
     height: 75px;
 }
 
+#pit_reporting .form-group,
 #pit_scouting .form-group,
 #scoring .form-group {
     padding-left: 5px;
