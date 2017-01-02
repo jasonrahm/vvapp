@@ -85,9 +85,9 @@ class LoginForm(FlaskForm):
 class MatchScoringForm(FlaskForm):
     team = SelectField('Team', coerce=int)
     match_number = StringField('Match Number')
-    a_center_vortex = IntegerField('Center Vortex Score', default=0)
-    a_corner_vortex = IntegerField('Corner Vortex Score', default=0)
-    a_beacon = IntegerField('Beacon Score', default=0)
+    a_center_vortex = IntegerField('Center Particles', default=0)
+    a_corner_vortex = IntegerField('Corner Particles', default=0)
+    a_beacon = IntegerField('Beacons', default=0)
     a_capball = SelectField('Cap Ball Location',
                             choices=[(0, 'Ball on Center'),
                                      (5, 'Ball on Floor')], coerce=int)
@@ -97,9 +97,9 @@ class MatchScoringForm(FlaskForm):
                                   (10, 'Fully on Center'),
                                   (5, 'Partially on Corner'),
                                   (10, 'Fully on Corner')], coerce=int)
-    t_center_vortex = IntegerField('Center Vortex Score', default=0)
-    t_corner_vortex = IntegerField('Corner Vortex Score', default=0)
-    t_beacon = SelectField('Beacons Claimed',
+    t_center_vortex = IntegerField('Center Particles', default=0)
+    t_corner_vortex = IntegerField('Corner Particles', default=0)
+    t_beacon = SelectField('Beacons',
                            choices=[(0, 'None'),
                                     (10, 'One'),
                                     (20, 'Two'),

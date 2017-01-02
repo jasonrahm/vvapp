@@ -16,6 +16,7 @@ from forms import MatchScoringForm
 from forms import PitReportingForm
 from forms import PitScoutingForm
 from forms import TeamForm
+import json
 from models import db
 from models import Competitions
 from models import CompetitionTeam
@@ -23,6 +24,7 @@ from models import MatchScore
 from models import PitScouting
 from models import Teams
 from models import Users
+import requests
 from sqlalchemy import and_
 
 import datetime
@@ -399,9 +401,16 @@ def teams():
 @app.route('/teams/<int:id>', methods=['GET'])
 @login_required
 def team(id):
-
     team = db.session.query(Teams).filter(Teams.id == id).all()
     competitions = db.session.query(Competitions).filter(Teams.id == id).all()
+
+    # # Get MoFTCData
+    # req = requests.session()
+    # req.headers.update({'Content-Type': 'application/json'})
+    # team_data = req.get('http://moftcscores.net/api/v1/team/{}'.format(team[0].number)).json()
+    # for item in team_data.get('games'):
+    #     if item.get('game_id') == 'velocity':
+    #         vvdata = item
 
     return render_template('team.html',
                            id=id,

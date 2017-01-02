@@ -13,42 +13,42 @@ var total_score_counter=0;
 
 jQuery(document).ready(function() {
     $("#a_center_incr").click(function(){
-        a_center_counter+=15;
+        a_center_counter+=1;
         a_score_counter+=15;
         $("#a_center_vortex").val(a_center_counter);
         $("#a_score").val(a_score_counter);
         $('#a_score').trigger('change');
     });
     $("#a_center_decr").click(function(){
-        a_center_counter-=15;
+        a_center_counter-=1;
         a_score_counter-=15;
         $("#a_center_vortex").val(a_center_counter);
         $("#a_score").val(a_score_counter);
         $('#a_score').trigger('change');
     });
     $("#a_corner_incr").click(function(){
-        a_corner_counter+=5;
+        a_corner_counter+=1;
         a_score_counter+=5;
         $("#a_corner_vortex").val(a_corner_counter);
         $("#a_score").val(a_score_counter);
         $('#a_score').trigger('change');
     });
     $("#a_corner_decr").click(function(){
-        a_corner_counter-=5;
+        a_corner_counter-=1;
         a_score_counter-=5;
         $("#a_corner_vortex").val(a_corner_counter);
         $("#a_score").val(a_score_counter);
         $('#a_score').trigger('change');
     });
     $("#a_beacon_incr").click(function(){
-        a_beacon_counter+=30;
+        a_beacon_counter+=1;
         a_score_counter+=30;
         $("#a_beacon").val(a_beacon_counter);
         $("#a_score").val(a_score_counter);
         $('#a_score').trigger('change');
     });
     $("#a_beacon_decr").click(function(){
-        a_beacon_counter-=30;
+        a_beacon_counter-=1;
         a_score_counter-=30;
         $("#a_beacon").val(a_beacon_counter);
         $("#a_score").val(a_score_counter);
@@ -74,14 +74,14 @@ jQuery(document).ready(function() {
     });
 
     $("#t_center_incr").click(function(){
-        t_center_counter+=5;
+        t_center_counter+=1;
         t_score_counter+=5;
         $("#t_center_vortex").val(t_center_counter);
         $("#t_score").val(t_score_counter);
         $('#t_score').trigger('change');
     });
     $("#t_center_decr").click(function(){
-        t_center_counter-=5;
+        t_center_counter-=1;
         t_score_counter-=5;
         $("#t_center_vortex").val(t_center_counter);
         $("#t_score").val(t_score_counter);

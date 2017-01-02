@@ -13,4 +13,35 @@
     </ul>
     {% endfor %}
 
+{#    <hr size="5">#}
+{#    <h4>Mo Team Data</h4>#}
+{#    <ul>#}
+{#      {% for key, value in vvdata.iteritems() %}#}
+{##}
+{#          {% if key == 'matches' %}#}
+{#              <ul>#}
+{#              <lh>{{ key }}</lh>#}
+{#              {% for x in value %}#}
+{#                  <ul>#}
+{#                  <lh>{{ x.match_id }}</lh>#}
+{#              {% for mkey, mvalue in x.items() %}#}
+{#              <li>{{ mkey }}: {{ mvalue }}</li>#}
+{#              {% endfor %}#}
+{#                  </ul>#}
+{#              {% endfor %}#}
+{#              </ul>#}
+{#          {% elif key == 'events' %}#}
+{#              <ul>#}
+{#              <lh>{{ key }}</lh>#}
+{#              {% for ekey, evalue in value[0].items() %}#}
+{#                  <li>{{ ekey }}: {{ evalue }}</li>#}
+{#              {% endfor %}#}
+{#              </ul>#}
+{#          {% else %}#}
+{#            <li>{{ key }}: {{ value }}</li>#}
+{#          {% endif %}#}
+{##}
+{#      {% endfor %}#}
+{#    </ul>#}
+
 {% endblock %}
