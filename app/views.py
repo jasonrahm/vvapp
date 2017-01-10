@@ -171,7 +171,8 @@ def match_scoring(comp):
             ct.competitions = {}'''.format(comp)
     result = db.engine.execute(sql_text)
 
-    form.team.choices = [(a.id, a.number) for a in result]
+    form.team.choices = [(a.id,
+                          "{}: {}".format(a.number, a.name)) for a in result]
 
     if request.method == 'POST':
         if not form.validate():
@@ -319,7 +320,8 @@ def pit_scouting(comp):
         ct.competitions = {}'''.format(comp)
     result = db.engine.execute(sql_text)
 
-    form.team.choices = [(a.id, a.number) for a in result]
+    form.team.choices = [(a.id,
+                          "{}: {}".format(a.number, a.name)) for a in result]
 
     if request.method == 'POST':
         if not form.validate():
@@ -426,10 +428,12 @@ def team_scores_by_comp(team_id, comp_id):
         Competitions).filter(Competitions.id == comp_id).all()
     match_scores = db.session.query(
         MatchScore).filter(
-        and_(Teams.id == team_id, Competitions.id == comp_id)).all()
+        and_(MatchScore.teams == team_id,
+             MatchScore.competitions == comp_id)).all()
     pit_scouting = db.session.query(
         PitScouting).filter(
-        and_(Teams.id == team_id, Competitions.id == comp_id)).all()
+        and_(PitScouting.teams == team_id,
+             PitScouting.competitions == comp_id)).all()
 
     return render_template('team_scores.html',
                            team_id=team_id,
