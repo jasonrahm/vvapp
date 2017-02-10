@@ -29,6 +29,14 @@ from sqlalchemy import and_
 
 import datetime
 
+today = datetime.datetime.today().date()
+compcheck = db.session.query(Competitions).filter(Competitions.date == today).first()
+if compcheck is not None:
+    cur_comp = compcheck.id
+else:
+    cur_comp = 2
+
+print cur_comp
 
 @app.errorhandler(404)
 def missing_file(error):
@@ -156,7 +164,7 @@ def logout():
     return redirect(request.args.get('next') or url_for('index'))
 
 
-@app.route('/match-scoring/', defaults={'comp': 2}, methods=['GET', 'POST'])
+@app.route('/match-scoring/', defaults={'comp': cur_comp}, methods=['GET', 'POST'])
 @app.route('/match-scoring/competitions/<int:comp>', methods=['GET', 'POST'])
 @login_required
 def match_scoring(comp):
@@ -243,7 +251,7 @@ def get_pit_report(id):
     return render_template('pit_report_details.html', data=data)
 
 
-@app.route('/pit-reporting/', defaults={'comp': 2}, methods=['GET', 'POST'])
+@app.route('/pit-reporting/', defaults={'comp': cur_comp}, methods=['GET', 'POST'])
 @app.route('/pit-reporting/competitions/<int:comp>', methods=['GET', 'POST'])
 @login_required
 def pit_reporting(comp):
@@ -305,7 +313,7 @@ def pit_reporting(comp):
         return render_template('pit_reporting.html', form=form)
 
 
-@app.route('/pit-scouting/', defaults={'comp': 2}, methods=['GET', 'POST'])
+@app.route('/pit-scouting/', defaults={'comp': cur_comp}, methods=['GET', 'POST'])
 @app.route('/pit-scouting/competitions/<int:comp>', methods=['GET', 'POST'])
 @login_required
 def pit_scouting(comp):
