@@ -109,7 +109,7 @@ class MatchScoringForm(FlaskForm):
                             choices=[(0, 'Floor'),
                                      (10, 'Elevated, < 30 inches'),
                                      (20, 'Elevated, > 30 inches'),
-                                     (40, 'In Center Vortext')], coerce=int)
+                                     (40, 'In Center Vortex')], coerce=int)
     a_score = IntegerField('Autonomous Score', default=0)
     t_score = IntegerField('Teleop Score', default=0)
     total_score = IntegerField('Total Score', default=0)
