@@ -278,7 +278,7 @@ def pit_reporting(comp):
                             (t_beacons*%d) +
                             (t_capball*%d) +
                             (watchlist*%d)
-                          As Score
+                          As Score, PitScouting.Competitions
                           FROM PitScouting
                           INNER JOIN Teams
                             On PitScouting.teams = Teams.id
@@ -302,7 +302,7 @@ def pit_reporting(comp):
             result = db.engine.execute(sql_text)
             teams = []
             for row in result:
-                teams.append([row[0], row[1], row[2], row[3]])
+                teams.append([row[0], row[1], row[2], row[3], row[4]])
 
             session['pitreport'] = teams
 
