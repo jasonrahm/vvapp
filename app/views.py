@@ -24,12 +24,13 @@ from models import MatchScore
 from models import PitScouting
 from models import Teams
 from models import Users
+from pytz import timezone
 # import requests
 from sqlalchemy import and_
 
 import datetime
 
-today = datetime.datetime.today().date()
+today = datetime.datetime.now(timezone('America/Chicago')).strftime("%Y-%m-%d")
 compcheck = db.session.query(Competitions).filter(Competitions.date == today).first()
 if compcheck is not None:
     cur_comp = compcheck.id
