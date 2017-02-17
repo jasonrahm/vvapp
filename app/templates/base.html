@@ -25,7 +25,8 @@
                     <li><a href="{{ url_for('competitions') }}">Competitions</a></li>
                     <li><a href="{{ url_for('pit_scouting') }}">Scouting</a></li>
                     <li><a href="{{ url_for('match_scoring') }}">Scoring</a></li>
-                    <li><a href="{{ url_for('pit_reporting') }}">Reporting</a></li>
+                    <li><a href="{{ url_for('pit_reporting') }}">Pit Report</a></li>
+                    <li><a href="{{ url_for('match_reporting') }}">Match Report</a></li>
                     <li><a href="{{ url_for('logout', next=request.path) }}">Sign Out</a></li>
                     {% else %}
                     <li><a href="{{ url_for('login', next=request.path) }}">Sign In</a></li>

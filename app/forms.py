@@ -82,6 +82,50 @@ class LoginForm(FlaskForm):
         return True
 
 
+class MatchReportingForm(FlaskForm):
+    a_center = SelectField('Center vortex (auto)',
+                           choices=[(0, 'Ignore'),
+                                    (1, 'Important'),
+                                    (3, 'Very Important'),
+                                    (9, 'Critical')],
+                           coerce=int)
+    a_beacons = SelectField('Beacons (auto)',
+                            choices=[(0, 'Ignore'),
+                                     (1, 'Important'),
+                                     (3, 'Very Important'),
+                                     (9, 'Critical')],
+                            coerce=int)
+    t_center = SelectField('Center vortex (teleop)',
+                           choices=[(0, 'Ignore'),
+                                    (1, 'Important'),
+                                    (3, 'Very Important'),
+                                    (9, 'Critical')],
+                           coerce=int)
+    t_beacons = SelectField('Beacons (teleop)',
+                            choices=[(0, 'Ignore'),
+                                     (1, 'Important'),
+                                     (3, 'Very Important'),
+                                     (9, 'Critical')],
+                            coerce=int)
+    t_capball = SelectField('Capball (teleop)',
+                            choices=[(0, 'Ignore'),
+                                     (1, 'Important'),
+                                     (3, 'Very Important'),
+                                     (9, 'Critical')],
+                            coerce=int)
+
+    submit = SubmitField('Run Report')
+
+    def __init__(self, *args, **kwargs):
+        FlaskForm.__init__(self, *args, **kwargs)
+
+    def validate(self):
+        if not FlaskForm.validate(self):
+            return False
+        else:
+            return True
+
+
 class MatchScoringForm(FlaskForm):
     team = SelectField('Team', coerce=int)
     match_number = StringField('Match Number')

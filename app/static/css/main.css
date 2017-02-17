@@ -71,3 +71,9 @@ div#capball_speed.form-group,
 div#match_notes.form-group {
     display: none;
 }
+
+thead {color:green;}
+th:hover{
+     cursor:pointer;
+     background:#AAA;
+}

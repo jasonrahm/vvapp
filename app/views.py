@@ -12,6 +12,7 @@ from flask_login import logout_user
 from forms import CompetitionsForm
 from forms import CompetitionTeamForm
 from forms import LoginForm
+from forms import MatchReportingForm
 from forms import MatchScoringForm
 from forms import PitReportingForm
 from forms import PitScoutingForm
@@ -31,7 +32,8 @@ from sqlalchemy import and_
 import datetime
 
 today = datetime.datetime.now(timezone('America/Chicago')).strftime("%Y-%m-%d")
-compcheck = db.session.query(Competitions).filter(Competitions.date == today).first()
+compcheck = db.session.query(Competitions).filter(
+    Competitions.date == today).first()
 if compcheck is not None:
     cur_comp = compcheck.id
 else:
@@ -163,6 +165,64 @@ def logout():
     logout_user()
     flash('You have been logged out.')
     return redirect(request.args.get('next') or url_for('index'))
+
+
+@app.route('/match-report/', methods=['GET'])
+@login_required
+def match_report():
+    data = session['matchreport']
+    if data =='':
+        redirect(url_for(match_reporting))
+    else:
+        return render_template('match_report.html', data=data)
+
+
+@app.route('/match-reporting/', defaults={'comp': cur_comp}, methods=['GET', 'POST'])
+@app.route('/match-reporting/competitions/<int:comp>', methods=['GET', 'POST'])
+@login_required
+def match_reporting(comp):
+
+    form = MatchReportingForm(request.values)
+
+    if request.method == 'POST':
+        if not form.validate():
+            return render_template('match_reporting.html', form=form)
+        else:
+            postdata = request.values
+            teams_scored = db.session.query(MatchScore.teams).filter(
+                MatchScore.competitions == 2).distinct()
+            teams = []
+            for x in teams_scored:
+                sql_text = '''select Teams.name, Teams.number,
+                           avg(total_score), max(total_score),
+                           (avg(a_center_vortex)*%d) +
+                           (avg(a_beacon)*%d) +
+                           (avg(t_center_vortex)*%d) +
+                           (avg(t_beacon)*%d) +
+                           (avg(t_capball)*%d)
+                           AS Score
+                           FROM MatchScores
+                           INNER JOIN Teams
+                             On MatchScores.teams = Teams.id
+                           WHERE competitions = %d AND teams = %d
+                           ORDER BY Score
+                           DESC''' % (int(postdata['a_center']),
+                                      int(postdata['a_beacons']),
+                                      int(postdata['t_center']),
+                                      int(postdata['t_beacons']),
+                                      int(postdata['t_capball']),
+                                      comp,
+                                      x[0])
+                result = db.engine.execute(sql_text)
+                for row in result:
+                    teams.append([row[0], row[1], row[2], row[3], row[4]])
+                session['matchreport'] = teams
+
+            flash('Report Ran Successfully.')
+            return redirect(url_for('match_report'))
+
+    elif request.method == 'GET':
+        return render_template('match_reporting.html', form=form)
 
 
 @app.route('/match-scoring/', defaults={'comp': cur_comp}, methods=['GET', 'POST'])
@@ -307,7 +367,7 @@ def pit_reporting(comp):
 
             session['pitreport'] = teams
 
-            flash('Report Run Successfully.')
+            flash('Report Ran Successfully.')
             return redirect(url_for('pit_report'))
 
     elif request.method == 'GET':

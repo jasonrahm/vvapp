@@ -10,6 +10,9 @@ var t_score_counter=0;
 var t_beacon_previous;
 var t_capball_previous;
 var total_score_counter=0;
+var f_mr_avg = 1;
+var f_mr_max = 1;
+var f_mr_pcr = 1;
 
 jQuery(document).ready(function() {
     $("#a_center_incr").click(function(){
@@ -166,4 +169,50 @@ jQuery(document).ready(function() {
         });
         return false;
     });
+    $("#mr_avg").click(function(){
+        f_mr_avg *= -1;
+        var n = $(this).prevAll().length;
+        sortTable(f_mr_avg,n);
+    });
+    $("#mr_max").click(function(){
+        f_mr_max *= -1;
+        var n = $(this).prevAll().length;
+        sortTable(f_mr_max,n);
+    });
+    $("#mr_pcr").click(function(){
+        f_mr_pcr *= -1;
+        var n = $(this).prevAll().length;
+        sortTable(f_mr_pcr,n);
+    });
 });
+
+
+function sortTable(f,n){
+	var rows = $('#matchreport tbody tr').get();
+
+	rows.sort(function(a, b) {
+
+		var A = getVal(a);
+		var B = getVal(b);
+
+		if(A < B) {
+			return -1*f;
+		}
+		if(A > B) {
+			return 1*f;
+		}
+		return 0;
+	});
+
+	function getVal(elm){
+		var v = $(elm).children('td').eq(n).text().toUpperCase();
+		if($.isNumeric(v)){
+			v = parseInt(v,10);
+		}
+		return v;
+	}
+
+	$.each(rows, function(index, row) {
+		$('#matchreport').children('tbody').append(row);
+	});
+}
