@@ -37,7 +37,7 @@ compcheck = db.session.query(Competitions).filter(
 if compcheck is not None:
     cur_comp = compcheck.id
 else:
-    cur_comp = 2
+    cur_comp = 4
 
 print cur_comp
 
@@ -190,15 +190,15 @@ def match_reporting(comp):
         else:
             postdata = request.values
             teams_scored = db.session.query(MatchScore.teams).filter(
-                MatchScore.competitions == 2).distinct()
+                MatchScore.competitions == comp).distinct()
             teams = []
             for x in teams_scored:
                 sql_text = '''select Teams.name, Teams.number,
                            avg(total_score), max(total_score),
-                           (avg(a_center_vortex)*%d) +
-                           (avg(a_beacon)*%d) +
-                           (avg(t_center_vortex)*%d) +
-                           (avg(t_beacon)*%d) +
+                           (avg(a_center_vortex)*15*%d) +
+                           (avg(a_beacon)*30*%d) +
+                           (avg(t_center_vortex)*5*%d) +
+                           (avg(t_beacon)*10*%d) +
                            (avg(t_capball)*%d)
                            AS Score
                            FROM MatchScores
@@ -216,7 +216,7 @@ def match_reporting(comp):
                 result = db.engine.execute(sql_text)
                 for row in result:
                     teams.append([row[0], row[1], row[2], row[3], row[4]])
-                session['matchreport'] = teams
+            session['matchreport'] = teams
 
             flash('Report Ran Successfully.')
             return redirect(url_for('match_report'))
