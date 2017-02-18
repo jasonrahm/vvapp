@@ -7,9 +7,9 @@
     <thead>
         <tr>
             <th>Team</th>
+            <th id="mr_pcr">PCR</th>
             <th id="mr_avg">Avg</th>
             <th id="mr_max">Max</th>
-            <th id="mr_pcr">PCR</th>
 {#            <th>Get Individual Report</th>#}
         </tr>
     </thead>
@@ -17,9 +17,9 @@
     {% for x in data %}
         <tr>
             <td>{{ x[1] }}: {{ x[0] }}</td>
+            <td>{{ x[4] }}</td>
             <td>{{ x[2] }}</td>
             <td>{{ x[3] }}</td>
-            <td>{{ x[4] }}</td>
 {#            <td><a href="{{  url_for('get_pit_report', id = x[0]) }}">Report Details</a></td>#}
 {#            <td><a href="{{ url_for('team_scores_by_comp', team_id = x[0], comp_id = x[4]) }}">Report Details</a></td>#}
         </tr>
