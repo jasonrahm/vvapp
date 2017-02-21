@@ -3,7 +3,7 @@
 {% block content %}
 
       <h3>Match Report</h3>
-    <table class="table table-responsive table-striped" id="matchreport">
+    <table class="table table-responsive table-striped tablesorter" id="matchreport">
     <thead>
         <tr>
             <th>Team</th>
@@ -17,11 +17,9 @@
     {% for x in data %}
         <tr>
             <td>{{ x[1] }}: {{ x[0] }}</td>
-            <td>{{ x[4] }}</td>
-            <td>{{ x[2] }}</td>
+            <td>{{ '{0:0.2f}'.format(x[4]) }}</td>
+            <td>{{ '{0:0.2f}'.format(x[2]) }}</td>
             <td>{{ x[3] }}</td>
-{#            <td><a href="{{  url_for('get_pit_report', id = x[0]) }}">Report Details</a></td>#}
-{#            <td><a href="{{ url_for('team_scores_by_comp', team_id = x[0], comp_id = x[4]) }}">Report Details</a></td>#}
         </tr>
     {% endfor %}
     </tbody>
