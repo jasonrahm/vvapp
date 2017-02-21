@@ -4,14 +4,15 @@ from models import CompetitionTeam
 from models import Teams
 from models import Users
 from wtforms import BooleanField
-from wtforms.fields.html5 import DateField
 from wtforms import HiddenField
-from wtforms.fields.html5 import IntegerField
 from wtforms import PasswordField
 from wtforms import SelectField
 from wtforms import StringField
 from wtforms import SubmitField
 from wtforms import validators
+from wtforms.fields.html5 import DateField
+from wtforms.fields.html5 import IntegerField
+from wtforms.widgets import TextArea
 from wtforms_sqlalchemy.fields import QuerySelectField
 
 
@@ -170,7 +171,8 @@ class MatchScoringForm(FlaskForm):
     match_notes = StringField('Match Notes',
                               [validators.Length(
                                   max=500,
-                                  message='Max length 500 characters.')])
+                                  message='Max length 500 characters.')],
+                              widget=TextArea())
 
     submit = SubmitField('Add Score')
 
@@ -335,7 +337,8 @@ class PitScoutingForm(FlaskForm):
     notes = StringField('Notes',
                         [validators.Length(
                             max=500,
-                            message='Please limit to 500 characters.')])
+                            message='Please limit to 500 characters.')],
+                        widget=TextArea())
     watchlist = BooleanField('Add to watchlist?')
 
     submit = SubmitField('Add Scouting Report')

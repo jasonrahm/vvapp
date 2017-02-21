@@ -237,7 +237,8 @@ def match_scoring(comp):
           INNER JOIN
             Teams t ON ct.teams = t.id
           WHERE
-            ct.competitions = {}'''.format(comp)
+            ct.competitions = {}
+          ORDER BY t.number ASC'''.format(comp)
     result = db.engine.execute(sql_text)
 
     form.team.choices = [(a.id,
@@ -386,7 +387,8 @@ def pit_scouting(comp):
       INNER JOIN
         Teams t ON ct.teams = t.id
       WHERE
-        ct.competitions = {}'''.format(comp)
+        ct.competitions = {}
+      ORDER BY t.number ASC'''.format(comp)
     result = db.engine.execute(sql_text)
 
     form.team.choices = [(a.id,
