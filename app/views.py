@@ -1,6 +1,8 @@
 from app import app
 from app import login_manager
+from BeautifulSoup import BeautifulSoup as bs
 from flask import flash
+from flask import Markup
 from flask import render_template
 from flask import redirect
 from flask import request
@@ -26,7 +28,7 @@ from models import PitScouting
 from models import Teams
 from models import Users
 from pytz import timezone
-# import requests
+import requests
 from sqlalchemy import and_
 
 import datetime
@@ -441,6 +443,16 @@ def pit_scouting(comp):
 
     elif request.method == 'GET':
         return render_template('pit_scouting.html', form=form)
+
+
+@app.route('/rankings', methods=['GET'])
+def rankings():
+    url = 'https://ftc-results.firstillinoisrobotics.org/live/il-cmp-vv/upload/rankings.html'
+    response = requests.get(url)
+    print response
+    soup = bs(response.text)
+    data = soup.findAll('table')[0]
+    return render_template('rankings.html', data=Markup(data))
 
 
 @app.route('/teams', methods=['GET', 'POST'])
