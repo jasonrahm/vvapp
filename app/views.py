@@ -458,9 +458,18 @@ def rankings():
     match_response = requests.get(match, verify=False)
     match_soup = bs(match_response.text)
     match_data = match_soup.findAll('table')[0]
+
+    matchdetails = 'https://ftc-results.firstillinoisrobotics.org/' \
+            'live/il-cmp-vv/upload/matchresultsdetails.html'
+    matchdetails_response = requests.get(matchdetails, verify=False)
+    matchdetails_soup = bs(matchdetails_response.text)
+    matchdetails_data = matchdetails_soup.findAll('table')[0]
+
+
     return render_template('rankings.html',
                            rank_data=Markup(rank_data),
-                           match_data=Markup(match_data))
+                           match_data=Markup(match_data),
+                           matchdetails_data=Markup(matchdetails_data))
 
 
 @app.route('/teams', methods=['GET', 'POST'])
