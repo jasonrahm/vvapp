@@ -326,7 +326,6 @@ def pit_reporting(comp):
         else:
             postdata = request.values
             sql_text = '''select PitScouting.id, Teams.name, Teams.number,
-                            (drivetrain*%d) +
                             (auto*%d) +
                             (auto_defense*%d) +
                             (auto_compatible*%d) +
@@ -338,16 +337,14 @@ def pit_reporting(comp):
                             (t_center_balls*%d) +
                             (t_corner_balls*%d) +
                             (t_beacons*%d) +
-                            (t_capball*%d) +
-                            (watchlist*%d)
+                            (t_capball*%d)
                           As Score, PitScouting.Competitions
                           FROM PitScouting
                           INNER JOIN Teams
                             On PitScouting.teams = Teams.id
                           WHERE competitions = %d
                           ORDER BY Score
-                          DESC ''' % (int(postdata['drivetrain']),
-                                      int(postdata['auto']),
+                          DESC ''' % (int(postdata['auto']),
                                       int(postdata['auto_defense']),
                                       int(postdata['auto_compatible']),
                                       int(postdata['a_center']),
@@ -359,7 +356,6 @@ def pit_reporting(comp):
                                       int(postdata['t_corner']),
                                       int(postdata['t_beacons']),
                                       int(postdata['t_capball']),
-                                      int(postdata['watchlist']),
                                       comp)
             result = db.engine.execute(sql_text)
             teams = []

@@ -89,31 +89,36 @@ class MatchReportingForm(FlaskForm):
                                     (1, 'Important'),
                                     (3, 'Very Important'),
                                     (9, 'Critical')],
-                           coerce=int)
+                           coerce=int,
+                           default=1)
     a_beacons = SelectField('Beacons (auto)',
                             choices=[(0, 'Ignore'),
                                      (1, 'Important'),
                                      (3, 'Very Important'),
                                      (9, 'Critical')],
-                            coerce=int)
+                            coerce=int,
+                            default=1)
     t_center = SelectField('Center vortex (teleop)',
                            choices=[(0, 'Ignore'),
                                     (1, 'Important'),
                                     (3, 'Very Important'),
                                     (9, 'Critical')],
-                           coerce=int)
+                           coerce=int,
+                           default=1)
     t_beacons = SelectField('Beacons (teleop)',
                             choices=[(0, 'Ignore'),
                                      (1, 'Important'),
                                      (3, 'Very Important'),
                                      (9, 'Critical')],
-                            coerce=int)
+                            coerce=int,
+                            default=1)
     t_capball = SelectField('Capball (teleop)',
                             choices=[(0, 'Ignore'),
                                      (1, 'Important'),
                                      (3, 'Very Important'),
                                      (9, 'Critical')],
-                            coerce=int)
+                            coerce=int,
+                            default=1)
 
     submit = SubmitField('Run Report')
 
@@ -190,90 +195,91 @@ class MatchScoringForm(FlaskForm):
 
 
 class PitReportingForm(FlaskForm):
-    drivetrain = SelectField('Drivetrain',
-                             choices=[(0, 'Ignore'),
-                                      (1, 'Important'),
-                                      (3, 'Very Important'),
-                                      (9, 'Critical')],
-                             coerce=int)
     auto = SelectField('Autonomous',
                        choices=[(0, 'Ignore'),
                                 (1, 'Important'),
                                 (3, 'Very Important'),
                                 (9, 'Critical')],
-                       coerce=int)
+                       coerce=int,
+                       default=1)
     auto_defense = SelectField('Defense (auto)',
                                choices=[(0, 'Ignore'),
                                         (1, 'Important'),
                                         (3, 'Very Important'),
                                         (9, 'Critical')],
-                               coerce=int)
+                               coerce=int,
+                               default=1)
     auto_compatible = SelectField('Compatible (auto)',
                                   choices=[(0, 'Ignore'),
                                            (1, 'Important'),
                                            (3, 'Very Important'),
                                            (9, 'Critical')],
-                                  coerce=int)
+                                  coerce=int,
+                                  default=1)
     a_center = SelectField('Center vortex (auto)',
                            choices=[(0, 'Ignore'),
                                     (1, 'Important'),
                                     (3, 'Very Important'),
                                     (9, 'Critical')],
-                           coerce=int)
+                           coerce=int,
+                           default=1)
     a_corner = SelectField('Corner vortex (auto)',
                            choices=[(0, 'Ignore'),
                                     (1, 'Important'),
                                     (3, 'Very Important'),
                                     (9, 'Critical')],
-                           coerce=int)
+                           coerce=int,
+                           default=1)
     a_capball = SelectField('Capball (auto)',
                             choices=[(0, 'Ignore'),
                                      (1, 'Important'),
                                      (3, 'Very Important'),
                                      (9, 'Critical')],
-                            coerce=int)
+                            coerce=int,
+                            default=1)
     a_beacons = SelectField('Beacons (auto)',
                             choices=[(0, 'Ignore'),
                                      (1, 'Important'),
                                      (3, 'Very Important'),
                                      (9, 'Critical')],
-                            coerce=int)
+                            coerce=int,
+                            default=1)
     a_park = SelectField('Parking position',
                          choices=[(0, 'Ignore'),
                                   (1, 'Important'),
                                   (3, 'Very Important'),
                                   (9, 'Critical')],
-                         coerce=int)
+                         coerce=int,
+                         default=1)
     t_center = SelectField('Center vortex (teleop)',
                            choices=[(0, 'Ignore'),
                                     (1, 'Important'),
                                     (3, 'Very Important'),
                                     (9, 'Critical')],
-                           coerce=int)
+                           coerce=int,
+                           default=1)
     t_corner = SelectField('Corner vortex (teleop)',
                            choices=[(0, 'Ignore'),
                                     (1, 'Important'),
                                     (3, 'Very Important'),
                                     (9, 'Critical')],
-                           coerce=int)
+                           coerce=int,
+                           default=1)
     t_beacons = SelectField('Beacons (teleop)',
                             choices=[(0, 'Ignore'),
                                      (1, 'Important'),
                                      (3, 'Very Important'),
                                      (9, 'Critical')],
-                            coerce=int)
+                            coerce=int,
+                            default=1)
     t_capball = SelectField('Capball (teleop)',
                             choices=[(0, 'Ignore'),
                                      (1, 'Important'),
                                      (3, 'Very Important'),
                                      (9, 'Critical')],
-                            coerce=int)
-    watchlist = SelectField('On Watchlist?',
-                            choices=[(0, 'Ignore'),
-                                     (1, 'Important'),
-                                     (3, 'Very Important'),
-                                     (9, 'Critical')],
-                            coerce=int)
+                            coerce=int,
+                            default=1)
+
     submit = SubmitField('Run Report')
 
     def __init__(self, *args, **kwargs):
@@ -293,7 +299,9 @@ class PitScoutingForm(FlaskForm):
                                       (2, 'Mechanum'),
                                       (3, 'Holonomic'),
                                       (4, 'Tank Treads'),
-                                      (5, 'Other')], coerce=int)
+                                      (5, 'Unspecified')],
+                             coerce=int,
+                             default=5)
     auto = BooleanField('Do they have autonomous?')
     auto_defense = BooleanField('Do they play defense in autonomous?')
     auto_compatible = BooleanField('Is their autonomous compatible with ours?')
