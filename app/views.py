@@ -449,13 +449,13 @@ def pit_scouting(comp):
 def rankings():
     rank = 'https://ftc-results.firstillinoisrobotics.org/' \
            'live/il-cmp-vv/upload/rankings.html'
-    rank_response = requests.get(rank)
+    rank_response = requests.get(rank, verify=False)
     rank_soup = bs(rank_response.text)
     rank_data = rank_soup.findAll('table')[0]
 
     match = 'https://ftc-results.firstillinoisrobotics.org/' \
             'live/il-cmp-vv/upload/matchresults.html'
-    match_response = requests.get(match)
+    match_response = requests.get(match, verify=False)
     match_soup = bs(match_response.text)
     match_data = match_soup.findAll('table')[0]
     return render_template('rankings.html',
