@@ -410,7 +410,8 @@ def pit_scouting(comp):
             t_beacons = request.form.get('t_beacons', '')
             t_capball = request.form.get('t_capball', '')
             notes = request.form.get('notes', '')
-            watchlist = request.form.get('watchlist', '')
+            # removed from form; setting to empty
+            watchlist = ''
 
             pitscouting = PitScouting(
                 competitions=comp,

@@ -347,7 +347,6 @@ class PitScoutingForm(FlaskForm):
                             max=500,
                             message='Please limit to 500 characters.')],
                         widget=TextArea())
-    watchlist = BooleanField('Add to watchlist?')
 
     submit = SubmitField('Add Scouting Report')
 
