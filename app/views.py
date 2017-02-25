@@ -39,7 +39,7 @@ compcheck = db.session.query(Competitions).filter(
 if compcheck is not None:
     cur_comp = compcheck.id
 else:
-    cur_comp = 4
+    cur_comp = 5
 
 print cur_comp
 
@@ -167,6 +167,18 @@ def logout():
     logout_user()
     flash('You have been logged out.')
     return redirect(request.args.get('next') or url_for('index'))
+
+
+@app.route('/match-list/', methods=['GET'])
+def match_list():
+    ml = 'https://ftc-results.firstillinoisrobotics.org/' \
+           'live/il-cmp-vv/upload/matchlist.html'
+    ml_response = requests.get(ml, verify=False)
+    ml_soup = bs(ml_response.text)
+    ml_data = ml_soup.findAll('table')[0]
+
+    return render_template('matchlist.html',
+                           ml_data=Markup(ml_data))
 
 
 @app.route('/match-report/', methods=['GET'])
@@ -464,7 +476,6 @@ def rankings():
     matchdetails_response = requests.get(matchdetails, verify=False)
     matchdetails_soup = bs(matchdetails_response.text)
     matchdetails_data = matchdetails_soup.findAll('table')[0]
-
 
     return render_template('rankings.html',
                            rank_data=Markup(rank_data),
