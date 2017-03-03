@@ -22,8 +22,6 @@
             <div>
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url_for('index') }}">Home</a></li>
-                    <li><a href="{{ url_for('match_list') }}">Match List</a></li>
-                    <li><a href="{{ url_for('rankings') }}">Rankings</a></li>
                     {% if g.user.is_authenticated %}
                     <li><a href="{{ url_for('teams') }}">Teams</a></li>
                     <li><a href="{{ url_for('competitions') }}">Competitions</a></li>

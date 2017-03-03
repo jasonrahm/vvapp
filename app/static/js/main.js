@@ -1,18 +1,17 @@
 var a_center_counter=0;
-var a_corner_counter=0;
+var a_center_miss_counter=0;
 var a_beacon_counter=0;
+var a_beacon_miss_counter=0;
 var a_score_counter=0;
 var a_capball_previous;
 var a_park_previous;
 var t_center_counter=0;
-var t_corner_counter=0;
+var t_center_miss_counter=0;
+var t_beacons_pushed_counter=0;
 var t_score_counter=0;
 var t_beacon_previous;
 var t_capball_previous;
 var total_score_counter=0;
-// var f_mr_avg = 1;
-// var f_mr_max = 1;
-// var f_mr_pcr = 1;
 
 jQuery(document).ready(function() {
     $("#a_center_incr").click(function(){
@@ -29,19 +28,13 @@ jQuery(document).ready(function() {
         $("#a_score").val(a_score_counter);
         $('#a_score').trigger('change');
     });
-    $("#a_corner_incr").click(function(){
-        a_corner_counter+=1;
-        a_score_counter+=5;
-        $("#a_corner_vortex").val(a_corner_counter);
-        $("#a_score").val(a_score_counter);
-        $('#a_score').trigger('change');
+    $("#a_center_miss_incr").click(function(){
+        a_center_miss_counter+=1;
+        $("#a_center_vortex_miss").val(a_center_miss_counter);
     });
-    $("#a_corner_decr").click(function(){
-        a_corner_counter-=1;
-        a_score_counter-=5;
-        $("#a_corner_vortex").val(a_corner_counter);
-        $("#a_score").val(a_score_counter);
-        $('#a_score').trigger('change');
+    $("#a_center_miss_decr").click(function(){
+        a_center_miss_counter-=1;
+        $("#a_center_vortex_miss").val(a_center_miss_counter);
     });
     $("#a_beacon_incr").click(function(){
         a_beacon_counter+=1;
@@ -56,6 +49,14 @@ jQuery(document).ready(function() {
         $("#a_beacon").val(a_beacon_counter);
         $("#a_score").val(a_score_counter);
         $('#a_score').trigger('change');
+    });
+    $("#a_beacon_miss_incr").click(function(){
+        a_beacon_miss_counter+=1;
+        $("#a_beacon_miss").val(a_beacon_miss_counter);
+    });
+    $("#a_beacon_miss_decr").click(function(){
+        a_beacon_miss_counter-=1;
+        $("#a_beacon_miss").val(a_beacon_miss_counter);
     });
 
     $("select[name=a_capball]").focus(function () {
@@ -90,19 +91,21 @@ jQuery(document).ready(function() {
         $("#t_score").val(t_score_counter);
         $('#t_score').trigger('change');
     });
-    $("#t_corner_incr").click(function(){
-        t_corner_counter+=1;
-        t_score_counter+=1;
-        $("#t_corner_vortex").val(t_corner_counter);
-        $("#t_score").val(t_score_counter);
-        $('#t_score').trigger('change');
+    $("#t_center_miss_incr").click(function(){
+        t_center_miss_counter+=1;
+        $("#t_center_vortex_miss").val(t_center_miss_counter);
     });
-    $("#t_corner_decr").click(function(){
-        t_corner_counter-=1;
-        t_score_counter-=1;
-        $("#t_corner_vortex").val(t_corner_counter);
-        $("#t_score").val(t_score_counter);
-        $('#t_score').trigger('change');
+    $("#t_center_miss_decr").click(function(){
+        t_center_miss_counter-=1;
+        $("#t_center_vortex_miss").val(t_center_miss_counter);
+    });
+    $("#t_beacons_pushed_incr").click(function(){
+        t_beacons_pushed_counter+=1;
+        $("#t_beacons_pushed").val(t_beacons_pushed_counter);
+    });
+    $("#t_beacons_pushed_decr").click(function(){
+        t_beacons_pushed_counter-=1;
+        $("#t_beacons_pushed").val(t_beacons_pushed_counter);
     });
 
     $("select[name=t_beacon]").focus(function () {
@@ -134,19 +137,6 @@ jQuery(document).ready(function() {
         $("#total_score").val(total_score_counter);
     });
 
-    // hide advanced scoring fields
-    $("input#adv_metrics").change(function () {
-        if (this.checked) {
-            $('div#particle_speed.form-group').show();
-            $('div#capball_speed.form-group').show();
-            $('div#match_notes.form-group').show();
-        } else {
-            $('div#particle_speed.form-group').hide();
-            $('div#capball_speed.form-group').hide();
-            $('div#match_notes.form-group').hide();
-        }
-    });
-
     // Pivot the Pit Scouting Information for team competition view
     $("a#pit_report").click(function () {
         $("table#pit_report.table.table-responsive").each(function () {
@@ -174,50 +164,4 @@ jQuery(document).ready(function() {
             sortList: [[1,1]] // etc.
 
     });
-    // $("#mr_avg").click(function(){
-    //     f_mr_avg *= -1;
-    //     var n = $(this).prevAll().length;
-    //     sortTable(f_mr_avg,n);
-    // });
-    // $("#mr_max").click(function(){
-    //     f_mr_max *= -1;
-    //     var n = $(this).prevAll().length;
-    //     sortTable(f_mr_max,n);
-    // });
-    // $("#mr_pcr").click(function(){
-    //     f_mr_pcr *= -1;
-    //     var n = $(this).prevAll().length;
-    //     sortTable(f_mr_pcr,n);
-    // });
 });
-
-
-// function sortTable(f,n){
-// 	var rows = $('#matchreport tbody tr').get();
-//
-// 	rows.sort(function(a, b) {
-//
-// 		var A = getVal(a);
-// 		var B = getVal(b);
-//
-// 		if(A < B) {
-// 			return -1*f;
-// 		}
-// 		if(A > B) {
-// 			return 1*f;
-// 		}
-// 		return 0;
-// 	});
-//
-// 	function getVal(elm){
-// 		var v = $(elm).children('td').eq(n).text().toUpperCase();
-// 		if($.isNumeric(v)){
-// 			v = parseInt(v,10);
-// 		}
-// 		return v;
-// 	}
-//
-// 	$.each(rows, function(index, row) {
-// 		$('#matchreport').children('tbody').append(row);
-// 	});
-// }

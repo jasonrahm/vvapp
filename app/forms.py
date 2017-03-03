@@ -91,6 +91,14 @@ class MatchReportingForm(FlaskForm):
                                     (9, 'Critical')],
                            coerce=int,
                            default=1)
+    a_center_miss = SelectField('Center vortex misses (auto)',
+                                choices=[(0, 'Ignore'),
+                                         (1, 'Important'),
+                                         (3, 'Very Important'),
+                                         (9, 'Critical')],
+                                coerce=int,
+                                default=0)
+
     a_beacons = SelectField('Beacons (auto)',
                             choices=[(0, 'Ignore'),
                                      (1, 'Important'),
@@ -98,6 +106,27 @@ class MatchReportingForm(FlaskForm):
                                      (9, 'Critical')],
                             coerce=int,
                             default=1)
+    a_beacons_miss = SelectField('Beacons missed (auto)',
+                            choices=[(0, 'Ignore'),
+                                     (1, 'Important'),
+                                     (3, 'Very Important'),
+                                     (9, 'Critical')],
+                            coerce=int,
+                            default=0)
+    a_capball = SelectField('Capball Location (auto)',
+                            choices=[(0, 'Ignore'),
+                                     (1, 'Important'),
+                                     (3, 'Very Important'),
+                                     (9, 'Critical')],
+                            coerce=int,
+                            default=0)
+    a_park = SelectField('Parking Location (auto)',
+                            choices=[(0, 'Ignore'),
+                                     (1, 'Important'),
+                                     (3, 'Very Important'),
+                                     (9, 'Critical')],
+                            coerce=int,
+                            default=0)
     t_center = SelectField('Center vortex (teleop)',
                            choices=[(0, 'Ignore'),
                                     (1, 'Important'),
@@ -105,20 +134,41 @@ class MatchReportingForm(FlaskForm):
                                     (9, 'Critical')],
                            coerce=int,
                            default=1)
-    t_beacons = SelectField('Beacons (teleop)',
+    t_center_miss = SelectField('Center vortex misses (teleop)',
+                           choices=[(0, 'Ignore'),
+                                    (1, 'Important'),
+                                    (3, 'Very Important'),
+                                    (9, 'Critical')],
+                           coerce=int,
+                           default=0)
+    t_beacons = SelectField('Beacons claimed (teleop)',
                             choices=[(0, 'Ignore'),
                                      (1, 'Important'),
                                      (3, 'Very Important'),
                                      (9, 'Critical')],
                             coerce=int,
                             default=1)
-    t_capball = SelectField('Capball (teleop)',
+    t_beacons_pushed = SelectField('Beacons pushed (teleop)',
+                            choices=[(0, 'Ignore'),
+                                     (1, 'Important'),
+                                     (3, 'Very Important'),
+                                     (9, 'Critical')],
+                            coerce=int,
+                            default=0)
+    t_capball = SelectField('Capball Location (teleop)',
                             choices=[(0, 'Ignore'),
                                      (1, 'Important'),
                                      (3, 'Very Important'),
                                      (9, 'Critical')],
                             coerce=int,
                             default=1)
+    t_capball_tried = SelectField('Capball Attempted? (teleop)',
+                            choices=[(0, 'Ignore'),
+                                     (1, 'Important'),
+                                     (3, 'Very Important'),
+                                     (9, 'Critical')],
+                            coerce=int,
+                            default=0)
 
     submit = SubmitField('Run Report')
 
@@ -135,9 +185,10 @@ class MatchReportingForm(FlaskForm):
 class MatchScoringForm(FlaskForm):
     team = SelectField('Team', coerce=int)
     match_number = StringField('Match Number')
-    a_center_vortex = IntegerField('Center Particles', default=0)
-    a_corner_vortex = IntegerField('Corner Particles', default=0)
-    a_beacon = IntegerField('Beacons', default=0)
+    a_center_vortex = IntegerField('Center Particles Scored', default=0)
+    a_center_vortex_miss = IntegerField('Center Particles Missed', default=0)
+    a_beacon = IntegerField('Beacons Claimed', default=0)
+    a_beacon_miss = IntegerField('Beacons Missed', default=0)
     a_capball = SelectField('Cap Ball Location',
                             choices=[(0, 'Ball on Center'),
                                      (5, 'Ball on Floor')], coerce=int)
@@ -147,32 +198,24 @@ class MatchScoringForm(FlaskForm):
                                   (10, 'Fully on Center'),
                                   (5, 'Partially on Corner'),
                                   (10, 'Fully on Corner')], coerce=int)
-    t_center_vortex = IntegerField('Center Particles', default=0)
-    t_corner_vortex = IntegerField('Corner Particles', default=0)
-    t_beacon = SelectField('Beacons',
-                           choices=[(0, 'None'),
-                                    (10, 'One'),
-                                    (20, 'Two'),
-                                    (30, 'Three'),
-                                    (40, 'Four')], coerce=int)
+    t_center_vortex = IntegerField('Center Particles Scored', default=0)
+    t_center_vortex_miss = IntegerField('Center Particles Missed', default=0)
+    t_beacon = SelectField('Beacons Claimed',
+                         choices=[(0, 'None'),
+                                  (10, 'One'),
+                                  (20, 'Two'),
+                                  (30, 'Three'),
+                                  (40, 'Four')], coerce=int)
+    t_beacons_pushed = IntegerField('Beacons Pushed', default=0)
     t_capball = SelectField('Cap Ball Location',
                             choices=[(0, 'Floor'),
                                      (10, 'Elevated, < 30 inches'),
                                      (20, 'Elevated, > 30 inches'),
                                      (40, 'In Center Vortex')], coerce=int)
+    t_capball_tried = BooleanField('Capball Attempted?')
     a_score = IntegerField('Autonomous Score', default=0)
     t_score = IntegerField('Teleop Score', default=0)
     total_score = IntegerField('Total Score', default=0)
-    adv_metrics = BooleanField('Advanced Scoring?', default=False)
-    particle_speed = SelectField('Particle Collection Speed',
-                                 choices=[(0, 'Less than 10s'),
-                                          (1, 'Between 10-15s'),
-                                          (2, 'More than 15s')], coerce=int)
-    capball_speed = SelectField('Cap Ball Collection Speed',
-                                choices=[(0, 'Less than 10s'),
-                                         (1, 'Between 10-20s'),
-                                         (2, 'More than 20s')], coerce=int
-                                )
     match_notes = StringField('Match Notes',
                               [validators.Length(
                                   max=500,

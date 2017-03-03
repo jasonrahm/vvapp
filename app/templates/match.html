@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-  {% if form.errors %}
+    {% if form.errors %}
     <ul>
       {% for field_name, field_errors in form.errors|dictsort if field_errors %}
             {% for error in field_errors %}
@@ -10,15 +9,11 @@
             {% endfor %}
       {% endfor %}
     </ul>
-  {% endif %}
-
-    <h2>Match Scoring</h2>
-    <div id="scoring">
-    {% if action == 'Add' %}
-    <form class="form-horizontal" action="{{ url_for('match_scoring') }}" method="post">
-    {% elif action == 'Edit' %}
-    <form class="form-horizontal" action="{{ url_for('match_scoring', id=id) }}" method="post">
     {% endif %}
+
+    <h2>Match {{ match.match_number }} Details</h2>
+    <div id="match">
+    <form class="form-horizontal" action="{{ url_for('match_edit', match_id=match.id) }}" method="post">
     {{ form.hidden_tag() }}
         <div class="row">
             <div class="col-md-12 col-sm-6 col-xs-12">
@@ -40,23 +35,15 @@
                     <div class="panel-body">
                         <div class="form-group">
                             {{ form.a_center_vortex.label }} {{ form.a_center_vortex }}
-                            <button id="a_center_incr" type="button">+</button>
-                            <button id="a_center_decr" type="button">-</button>
                         </div>
                         <div class="form-group">
                             {{ form.a_center_vortex_miss.label }} {{ form.a_center_vortex_miss }}
-                            <button id="a_center_miss_incr" type="button">+</button>
-                            <button id="a_center_miss_decr" type="button">-</button>
                         </div>
                         <div class="form-group">
                             {{ form.a_beacon.label }} {{ form.a_beacon }}
-                            <button id="a_beacon_incr" type="button">+</button>
-                            <button id="a_beacon_decr" type="button">-</button>
                         </div>
                         <div class="form-group">
                             {{ form.a_beacon_miss.label }} {{ form.a_beacon_miss }}
-                            <button id="a_beacon_miss_incr" type="button">+</button>
-                            <button id="a_beacon_miss_decr" type="button">-</button>
                         </div>
                         <div class="form-group">
                             {{ form.a_capball.label }} {{ form.a_capball }}
@@ -74,18 +61,12 @@
                     <div class="panel-body">
                         <div class="form-group">
                             {{ form.t_center_vortex.label }} {{ form.t_center_vortex }}
-                            <button id="t_center_incr" type="button">+</button>
-                            <button id="t_center_decr" type="button">-</button>
                         </div>
                         <div class="form-group">
                             {{ form.t_center_vortex_miss.label }} {{ form.t_center_vortex_miss }}
-                            <button id="t_center_miss_incr" type="button">+</button>
-                            <button id="t_center_miss_decr" type="button">-</button>
                         </div>
                         <div class="form-group">
                             {{ form.t_beacons_pushed.label }} {{ form.t_beacons_pushed }}
-                            <button id="t_beacons_pushed_incr" type="button">+</button>
-                            <button id="t_beacons_pushed_decr" type="button">-</button>
                         </div>
                         <div class="form-group">
                             {{ form.t_beacon.label }} {{ form.t_beacon }}
@@ -116,22 +97,6 @@
         </div>
     </form>
     </div>
-    <hr size="2">
-    <table class="table table-responsive">
-    <thead>
-    <tr>
-        <th><strong>Match Number</strong></th>
-        <th><strong>Team</strong></th>
-        <th><strong>Action</strong></th>
-    </tr>
-    </thead>
 
-    {% for match in matches %}
-        <tr>
-            <td>{{ match.match_number }}</td>
-        <td>{{ match.team }}</td>
-            <td><a href="{{ url_for('match_edit', match_id = match.id) }}">Edit Match</a> || <a href="{{ url_for('match_delete', match_id = match.id) }}">Delete Match</a></td>
-        </tr>
-    {% endfor %}
-    </table>
+
 {% endblock %}

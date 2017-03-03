@@ -1,6 +1,7 @@
 from app import app
 from app import login_manager
 from BeautifulSoup import BeautifulSoup as bs
+from flask import abort
 from flask import flash
 from flask import Markup
 from flask import render_template
@@ -169,16 +170,16 @@ def logout():
     return redirect(request.args.get('next') or url_for('index'))
 
 
-@app.route('/match-list/', methods=['GET'])
-def match_list():
-    ml = 'https://ftc-results.firstillinoisrobotics.org/' \
-           'live/il-cmp-vv/upload/matchlist.html'
-    ml_response = requests.get(ml, verify=False)
-    ml_soup = bs(ml_response.text)
-    ml_data = ml_soup.findAll('table')[0]
-
-    return render_template('matchlist.html',
-                           ml_data=Markup(ml_data))
+# @app.route('/match-list/', methods=['GET'])
+# def match_list():
+#     ml = 'https://ftc-results.firstillinoisrobotics.org/' \
+#            'live/il-cmp-vv/upload/matchlist.html'
+#     ml_response = requests.get(ml, verify=False)
+#     ml_soup = bs(ml_response.text)
+#     ml_data = ml_soup.findAll('table')[0]
+#
+#     return render_template('matchlist.html',
+#                            ml_data=Markup(ml_data))
 
 
 @app.route('/match-report/', methods=['GET'])
@@ -211,17 +212,21 @@ def match_reporting(comp):
                            avg(total_score), max(total_score),
                            (avg(a_center_vortex)*15*%d) +
                            (avg(a_beacon)*30*%d) +
+                           (avg(a_capball)*%d) +
+                           (avg(a_park)*%d) +
                            (avg(t_center_vortex)*5*%d) +
                            (avg(t_beacon)*10*%d) +
                            (avg(t_capball)*%d)
                            AS Score
-                           FROM MatchScores
+                           FROM MatchScore
                            INNER JOIN Teams
-                             On MatchScores.teams = Teams.id
+                             On MatchScore.teams = Teams.id
                            WHERE competitions = %d AND teams = %d
                            ORDER BY Score
                            DESC''' % (int(postdata['a_center']),
                                       int(postdata['a_beacons']),
+                                      int(postdata['a_capball']),
+                                      int(postdata['a_park']),
                                       int(postdata['t_center']),
                                       int(postdata['t_beacons']),
                                       int(postdata['t_capball']),
@@ -265,19 +270,20 @@ def match_scoring(comp):
             team = request.form.get('team', '')
             match_number = request.form.get('match_number', '')
             a_center_vortex = request.form.get('a_center_vortex', '')
-            a_corner_vortex = request.form.get('a_corner_vortex', '')
+            a_center_vortex_miss = request.form.get('a_center_vortex_miss', '')
             a_beacon = request.form.get('a_beacon', '')
+            a_beacon_miss = request.form.get('a_beacon_miss', '')
             a_capball = request.form.get('a_capball', '')
             a_park = request.form.get('a_park', '')
             t_center_vortex = request.form.get('t_center_vortex', '')
-            t_corner_vortex = request.form.get('t_corner_vortex', '')
+            t_center_vortex_miss = request.form.get('t_center_vortex_miss', '')
             t_beacon = request.form.get('t_beacon', '')
+            t_beacons_pushed = request.form.get('t_beacons_pushed', '')
             t_capball = request.form.get('t_capball', '')
+            t_capball_tried = request.form.get('t_capball_tried', '')
             a_score = request.form.get('a_score', '')
             t_score = request.form.get('t_score', '')
             total_score = request.form.get('total_score', '')
-            particle_speed = request.form.get('particle_speed', '')
-            capball_speed = request.form.get('capball_speed', '')
             match_notes = request.form.get('match_notes', '')
 
             matchscore = MatchScore(
@@ -285,19 +291,24 @@ def match_scoring(comp):
                 competitions=comp,
                 match_number=match_number,
                 a_center_vortex=a_center_vortex,
-                a_corner_vortex=a_corner_vortex,
+                a_center_vortex_miss=a_center_vortex_miss,
+                a_corner_vortex=0,
                 a_beacon=a_beacon,
+                a_beacon_miss=a_beacon_miss,
                 a_capball=a_capball,
                 a_park=a_park,
                 t_center_vortex=t_center_vortex,
-                t_corner_vortex=t_corner_vortex,
+                t_center_vortex_miss=t_center_vortex_miss,
+                t_corner_vortex=0,
                 t_beacon=t_beacon,
+                t_beacons_pushed=t_beacons_pushed,
                 t_capball=t_capball,
+                t_capball_tried=t_capball_tried,
                 a_score=a_score,
                 t_score=t_score,
                 total_score=total_score,
-                particle_speed=particle_speed,
-                capball_speed=capball_speed,
+                particle_speed=0,
+                capball_speed=0,
                 match_notes=match_notes,
                 timestamp=datetime.datetime.now())
             db.session.add(matchscore)
@@ -307,7 +318,82 @@ def match_scoring(comp):
             return redirect(url_for('match_scoring'))
 
     elif request.method == 'GET':
-        return render_template('match_scoring.html', form=form)
+        matches = db.session.query(MatchScore).filter(
+            MatchScore.competitions == comp).all()
+        return render_template('match_scoring.html',
+                               action='Add', form=form, matches=matches)
+
+
+@app.route('/match/<int:match_id>/delete', methods=['GET'])
+@login_required
+def match_delete(match_id):
+    match = db.session.query(MatchScore).get(match_id)
+    if match is None:
+        abort(404)
+    db.session.delete(match)
+    db.session.commit()
+
+    flash('Match deleted.')
+    return redirect(url_for('match_scoring'))
+
+
+@app.route('/match/<int:match_id>/edit', methods=['GET', 'POST'])
+@login_required
+def match_edit(match_id):
+    match = db.session.query(MatchScore).get(match_id)
+    if match is None:
+        abort(404)
+    form = MatchScoringForm(request.values, obj=match)
+    form.team.choices = [
+            (a.id, a.number) for a in Teams.query.filter(
+            Teams.id == match.teams)]
+    if request.method == 'POST' and form.validate_on_submit():
+        postdata = request.values
+        t_capball_tried = True if 't_capball' in request.form else False
+        sql_text = '''update MatchScore set match_number="%s", \
+                        a_center_vortex=%d, \
+                        a_center_vortex_miss=%d, \
+                        a_beacon=%d, \
+                        a_beacon_miss=%d, \
+                        a_capball=%d, \
+                        a_park=%d, \
+                        t_center_vortex=%d, \
+                        t_center_vortex_miss=%d, \
+                        t_beacon=%d, \
+                        t_beacons_pushed=%d, \
+                        t_capball=%d, \
+                        t_capball_tried=%d, \
+                        a_score=%d, \
+                        t_score=%d, \
+                        total_score=%d, \
+                        match_notes="%s" where id = %d''' % (
+            str(postdata['match_number']),
+            int(postdata['a_center_vortex']),
+            int(postdata['a_center_vortex_miss']),
+            int(postdata['a_beacon']),
+            int(postdata['a_beacon_miss']),
+            int(postdata['a_capball']),
+            int(postdata['a_park']),
+            int(postdata['t_center_vortex']),
+            int(postdata['t_center_vortex_miss']),
+            int(postdata['t_beacon']),
+            int(postdata['t_beacons_pushed']),
+            int(postdata['t_capball']),
+            t_capball_tried,
+            int(postdata['a_score']),
+            int(postdata['t_score']),
+            int(postdata['total_score']),
+            str(postdata['match_notes']),
+            match_id)
+        result = db.engine.execute(sql_text)
+        # form.populate_obj(match)
+        # db.session.commit()
+        flash('Score Updated Successfully')
+        return redirect(url_for('match_edit', match_id=match_id))
+    elif request.method == 'GET':
+        return render_template('match.html',
+                               form=form,
+                               match=match)
 
 
 @app.route('/pit-report', methods=['GET'])
@@ -457,30 +543,30 @@ def pit_scouting(comp):
         return render_template('pit_scouting.html', form=form)
 
 
-@app.route('/rankings', methods=['GET'])
-def rankings():
-    rank = 'https://ftc-results.firstillinoisrobotics.org/' \
-           'live/il-cmp-vv/upload/rankings.html'
-    rank_response = requests.get(rank, verify=False)
-    rank_soup = bs(rank_response.text)
-    rank_data = rank_soup.findAll('table')[0]
-
-    match = 'https://ftc-results.firstillinoisrobotics.org/' \
-            'live/il-cmp-vv/upload/matchresults.html'
-    match_response = requests.get(match, verify=False)
-    match_soup = bs(match_response.text)
-    match_data = match_soup.findAll('table')[0]
-
-    matchdetails = 'https://ftc-results.firstillinoisrobotics.org/' \
-            'live/il-cmp-vv/upload/matchresultsdetails.html'
-    matchdetails_response = requests.get(matchdetails, verify=False)
-    matchdetails_soup = bs(matchdetails_response.text)
-    matchdetails_data = matchdetails_soup.findAll('table')[0]
-
-    return render_template('rankings.html',
-                           rank_data=Markup(rank_data),
-                           match_data=Markup(match_data),
-                           matchdetails_data=Markup(matchdetails_data))
+# @app.route('/rankings', methods=['GET'])
+# def rankings():
+#     rank = 'https://ftc-results.firstillinoisrobotics.org/' \
+#            'live/il-cmp-vv/upload/rankings.html'
+#     rank_response = requests.get(rank, verify=False)
+#     rank_soup = bs(rank_response.text)
+#     rank_data = rank_soup.findAll('table')[0]
+#
+#     match = 'https://ftc-results.firstillinoisrobotics.org/' \
+#             'live/il-cmp-vv/upload/matchresults.html'
+#     match_response = requests.get(match, verify=False)
+#     match_soup = bs(match_response.text)
+#     match_data = match_soup.findAll('table')[0]
+#
+#     matchdetails = 'https://ftc-results.firstillinoisrobotics.org/' \
+#             'live/il-cmp-vv/upload/matchresultsdetails.html'
+#     matchdetails_response = requests.get(matchdetails, verify=False)
+#     matchdetails_soup = bs(matchdetails_response.text)
+#     matchdetails_data = matchdetails_soup.findAll('table')[0]
+#
+#     return render_template('rankings.html',
+#                            rank_data=Markup(rank_data),
+#                            match_data=Markup(match_data),
+#                            matchdetails_data=Markup(matchdetails_data))
 
 
 @app.route('/teams', methods=['GET', 'POST'])

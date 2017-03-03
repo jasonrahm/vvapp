@@ -42,13 +42,13 @@
     <hr size="2">
   <h2>Existing Teams:</h2>
   <table class="table table-responsive">
-    <thread>
+    <thead>
         <tr>
             <th><strong>Team Number</strong></th>
             <th><strong>Team Name</strong></th>
             <th><b>Actions</b></th>
         </tr>
-    </thread>
+    </thead>
     {% for team in teams %}
     <tr>
         <td><a href="{{ url_for('team', id = team.id) }}">{{  team.number }}</a></td>

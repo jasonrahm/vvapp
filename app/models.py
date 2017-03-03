@@ -28,7 +28,7 @@ class Competitions(db.Model):
         self.created_timestamp = timestamp
 
     def __repr__(self):
-        return '<Competition %r>' % self.id
+        return self.name
 
 
 class CompetitionTeam(db.Model):
@@ -60,21 +60,26 @@ class CompetitionTeam(db.Model):
 
 
 class MatchScore(db.Model):
-    __tablename__ = 'MatchScores'
+    __tablename__ = 'MatchScore'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     teams = db.Column(db.ForeignKey('Teams.id'), index=True)
     competitions = db.Column(db.ForeignKey('Competitions.id'), index=True)
     match_number = db.Column(db.String)
     a_center_vortex = db.Column(db.Integer)
+    a_center_vortex_miss = db.Column(db.Integer)
     a_corner_vortex = db.Column(db.Integer)
     a_beacon = db.Column(db.Integer)
+    a_beacon_miss = db.Column(db.Integer)
     a_capball = db.Column(db.Integer)
     a_park = db.Column(db.Integer)
     t_center_vortex = db.Column(db.Integer)
+    t_center_vortex_miss = db.Column(db.Integer)
     t_corner_vortex = db.Column(db.Integer)
     t_beacon = db.Column(db.Integer)
+    t_beacons_pushed = db.Column(db.Integer)
     t_capball = db.Column(db.Integer)
+    t_capball_tried = db.Column(db.Boolean)
     a_score = db.Column(db.Integer)
     t_score = db.Column(db.Integer)
     total_score = db.Column(db.Integer)
@@ -95,14 +100,19 @@ class MatchScore(db.Model):
                  competitions,
                  match_number,
                  a_center_vortex,
+                 a_center_vortex_miss,
                  a_corner_vortex,
                  a_beacon,
+                 a_beacon_miss,
                  a_capball,
                  a_park,
                  t_center_vortex,
+                 t_center_vortex_miss,
                  t_corner_vortex,
                  t_beacon,
+                 t_beacons_pushed,
                  t_capball,
+                 t_capball_tried,
                  a_score,
                  t_score,
                  total_score,
@@ -114,14 +124,19 @@ class MatchScore(db.Model):
         self.competitions = competitions
         self.match_number = match_number
         self.a_center_vortex = a_center_vortex
+        self.a_center_vortex_miss = a_center_vortex_miss
         self.a_corner_vortex = a_corner_vortex
         self.a_beacon = a_beacon
+        self.a_beacon_miss = a_beacon_miss
         self.a_capball = a_capball
         self.a_park = a_park
         self.t_center_vortex = t_center_vortex
+        self.t_center_vortex_miss = t_center_vortex_miss
         self.t_corner_vortex = t_corner_vortex
         self.t_beacon = t_beacon
+        self.t_beacons_pushed = t_beacons_pushed
         self.t_capball = t_capball
+        self.t_capball_tried = t_capball_tried
         self.a_score = a_score
         self.t_score = t_score
         self.total_score = total_score
@@ -229,7 +244,7 @@ class Teams(db.Model):
         self.created_timestamp = timestamp
 
     def __repr__(self):
-        return '<Team %r %r %r>' % (self.id, self.number, self.name)
+        return '%r: %r' % (self.number, str(self.name))
 
 
 class Users(db.Model):

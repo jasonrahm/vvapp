@@ -66,12 +66,6 @@ h5 {
     line-height: 18px;
 }
 
-div#particle_speed.form-group,
-div#capball_speed.form-group,
-div#match_notes.form-group {
-    display: none;
-}
-
 thead {color:green;}
 th:hover{
      cursor:pointer;
