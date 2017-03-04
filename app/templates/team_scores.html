@@ -49,16 +49,41 @@
     <caption>Match Scores</caption>
     <tr>
         <th>Match Number</th>
-        <th>Total Score</th>
+        <th>Center Particles Scored (a)</th>
+        <th>Center Particles Missed (a)</th>
+        <th>Beacons Claimed (a)</th>
+        <th>Beacons Missed (a)</th>
+        <th>Capball (a)</th>
+        <th>Parking (a)</th>
+        <th>Center Particles Scored (t)</th>
+        <th>Center Particles Missed (t)</th>
+        <th>Beacons Pushed (t)</th>
+        <th>Beaconds Claimed (t)</th>
+        <th>Capball Location (t)</th>
+        <th>Capball Attempted (t)</th>
         <th>Autonomous Score</th>
         <th>Teleop Score</th>
+        <th>Total Score</th>
     </tr>
     {% for x in match_scores %}
         <tr>
         <td>{{ x.match_number }}</td>
-        <td>{{ x.total_score }}</td>
+        <td>{{ x.a_center_vortex }}</td>
+        <td>{{ x.a_center_vortex_miss }}</td>
+        <td>{{ x.a_beacon }}</td>
+        <td>{{ x.a_beacon_miss }}</td>
+        <td>{{ x.a_capball }}</td>
+        <td>{{ x.a_park }}</td>
+        <td>{{ x.t_center_vortex }}</td>
+        <td>{{ x.t_center_vortex_miss }}</td>
+        <td>{{ x.t_beacon }}</td>
+        <td>{{ x.t_beacons_pushed }}</td>
+        <td>{{ x.t_capball }}</td>
+        <td>{{ x.t_capball_tried }}</td>
         <td>{{ x.a_score }}</td>
         <td>{{ x.t_score }}</td>
+        <td>{{ x.total_score }}</td>
+        <td>{{ x.match_notes }}</td>
         </tr>
     {% endfor %}
     </table>
