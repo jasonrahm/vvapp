@@ -215,7 +215,7 @@ def match_reporting(comp):
                            (avg(a_capball)*%d) +
                            (avg(a_park)*%d) +
                            (avg(t_center_vortex)*5*%d) +
-                           (avg(t_beacon)*10*%d) +
+                           (avg(t_beacon)*%d) +
                            (avg(t_capball)*%d)
                            AS Score
                            FROM MatchScore
