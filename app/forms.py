@@ -90,7 +90,7 @@ class MatchReportingForm(FlaskForm):
                                     (3, 'Very Important'),
                                     (9, 'Critical')],
                            coerce=int,
-                           default=1)
+                           default=3)
     a_center_miss = SelectField('Center vortex misses (auto)',
                                 choices=[(0, 'Ignore'),
                                          (1, 'Important'),
@@ -105,7 +105,7 @@ class MatchReportingForm(FlaskForm):
                                      (3, 'Very Important'),
                                      (9, 'Critical')],
                             coerce=int,
-                            default=1)
+                            default=3)
     a_beacons_miss = SelectField('Beacons missed (auto)',
                             choices=[(0, 'Ignore'),
                                      (1, 'Important'),
@@ -119,21 +119,21 @@ class MatchReportingForm(FlaskForm):
                                      (3, 'Very Important'),
                                      (9, 'Critical')],
                             coerce=int,
-                            default=0)
+                            default=1)
     a_park = SelectField('Parking Location (auto)',
                             choices=[(0, 'Ignore'),
                                      (1, 'Important'),
                                      (3, 'Very Important'),
                                      (9, 'Critical')],
                             coerce=int,
-                            default=0)
+                            default=1)
     t_center = SelectField('Center vortex (teleop)',
                            choices=[(0, 'Ignore'),
                                     (1, 'Important'),
                                     (3, 'Very Important'),
                                     (9, 'Critical')],
                            coerce=int,
-                           default=1)
+                           default=9)
     t_center_miss = SelectField('Center vortex misses (teleop)',
                            choices=[(0, 'Ignore'),
                                     (1, 'Important'),
@@ -147,7 +147,7 @@ class MatchReportingForm(FlaskForm):
                                      (3, 'Very Important'),
                                      (9, 'Critical')],
                             coerce=int,
-                            default=1)
+                            default=9)
     t_beacons_pushed = SelectField('Beacons pushed (teleop)',
                             choices=[(0, 'Ignore'),
                                      (1, 'Important'),
