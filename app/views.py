@@ -40,7 +40,7 @@ compcheck = db.session.query(Competitions).filter(
 if compcheck is not None:
     cur_comp = compcheck.id
 else:
-    cur_comp = 6
+    cur_comp = 7
 
 print cur_comp
 
