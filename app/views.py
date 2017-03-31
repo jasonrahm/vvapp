@@ -170,16 +170,16 @@ def logout():
     return redirect(request.args.get('next') or url_for('index'))
 
 
-# @app.route('/match-list/', methods=['GET'])
-# def match_list():
-#     ml = 'https://ftc-results.firstillinoisrobotics.org/' \
-#            'live/il-cmp-vv/upload/matchlist.html'
-#     ml_response = requests.get(ml, verify=False)
-#     ml_soup = bs(ml_response.text)
-#     ml_data = ml_soup.findAll('table')[0]
-#
-#     return render_template('matchlist.html',
-#                            ml_data=Markup(ml_data))
+@app.route('/match-list/', methods=['GET'])
+def match_list():
+    ml = 'http://firstinspiresiowa.org/cache/' \
+         'Matches_North_Super_Regional_Kindig.html'
+    ml_response = requests.get(ml, verify=False)
+    ml_soup = bs(ml_response.text)
+    ml_data = ml_soup.findAll('table')[0]
+
+    return render_template('matchlist.html',
+                           ml_data=Markup(ml_data))
 
 
 @app.route('/match-report/', methods=['GET'])
@@ -543,30 +543,30 @@ def pit_scouting(comp):
         return render_template('pit_scouting.html', form=form)
 
 
-# @app.route('/rankings', methods=['GET'])
-# def rankings():
-#     rank = 'https://ftc-results.firstillinoisrobotics.org/' \
-#            'live/il-cmp-vv/upload/rankings.html'
-#     rank_response = requests.get(rank, verify=False)
-#     rank_soup = bs(rank_response.text)
-#     rank_data = rank_soup.findAll('table')[0]
-#
-#     match = 'https://ftc-results.firstillinoisrobotics.org/' \
-#             'live/il-cmp-vv/upload/matchresults.html'
-#     match_response = requests.get(match, verify=False)
-#     match_soup = bs(match_response.text)
-#     match_data = match_soup.findAll('table')[0]
-#
-#     matchdetails = 'https://ftc-results.firstillinoisrobotics.org/' \
-#             'live/il-cmp-vv/upload/matchresultsdetails.html'
-#     matchdetails_response = requests.get(matchdetails, verify=False)
-#     matchdetails_soup = bs(matchdetails_response.text)
-#     matchdetails_data = matchdetails_soup.findAll('table')[0]
-#
-#     return render_template('rankings.html',
-#                            rank_data=Markup(rank_data),
-#                            match_data=Markup(match_data),
-#                            matchdetails_data=Markup(matchdetails_data))
+@app.route('/rankings', methods=['GET'])
+def rankings():
+    rank = 'http://firstinspiresiowa.org/cache/' \
+           'Rankings_North_Super_Regional_Kindig.html'
+    rank_response = requests.get(rank, verify=False)
+    rank_soup = bs(rank_response.text)
+    rank_data = rank_soup.findAll('table')[0]
+
+    match = 'http://firstinspiresiowa.org/cache/' \
+            'MatchResults_North_Super_Regional_Kindig.html'
+    match_response = requests.get(match, verify=False)
+    match_soup = bs(match_response.text)
+    match_data = match_soup.findAll('table')[0]
+
+    # matchdetails = 'http://firstinspiresiowa.org/cache/' \
+    #                'MatchResultsDetails_North_Super_Regional_Kindig.html'
+    # matchdetails_response = requests.get(matchdetails, verify=False)
+    # matchdetails_soup = bs(matchdetails_response.text)
+    # matchdetails_data = matchdetails_soup.findAll('table')[0]
+
+    return render_template('rankings.html',
+                           rank_data=Markup(rank_data),
+                           match_data=Markup(match_data))
+                           # matchdetails_data=Markup(matchdetails_data))
 
 
 @app.route('/teams', methods=['GET', 'POST'])
