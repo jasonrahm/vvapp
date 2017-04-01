@@ -164,4 +164,5 @@ jQuery(document).ready(function() {
             sortList: [[1,1]] // etc.
 
     });
+    $('table.highchart').highchartTable();
 });
