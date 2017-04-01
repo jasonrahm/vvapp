@@ -3,13 +3,18 @@
 {% block content %}
 
       <h3>Match Report</h3>
-    <table class="table table-responsive table-striped tablesorter" id="matchreport">
+    <table class="table table-responsive table-striped tablesorter highchart" id="matchreport"
+    data-graph-container-before="1"
+    data-graph-type="column"
+    data-graph-inverted="1"
+    data-graph-height='750'
+    data-graph-yaxis-2-opposite="1">
     <thead>
         <tr>
             <th>Team</th>
             <th id="mr_pcr">PCR</th>
-            <th id="mr_avg">Avg</th>
-            <th id="mr_max">Max</th>
+            <th data-graph-yaxis="1" id="mr_avg">Avg</th>
+            <th data-graph-yaxis="1" id="mr_max">Max</th>
 {#            <th>Get Individual Report</th>#}
         </tr>
     </thead>
@@ -23,27 +28,6 @@
         </tr>
     {% endfor %}
     </tbody>
-    </table>
-
-    <table class="highchart" data-graph-container-before="1" data-graph-type="column">
-    <thead>
-        <tr>
-            <th>Team</th>
-            <th id="mr_avg">Avg</th>
-            <th id="mr_max">Max</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for x in data %}
-        <tr>
-            <td>{{ x[1] }}: {{ x[0] }}</td>
-            <td>{{ '{0:0.2f}'.format(x[2]) }}</td>
-            <td>{{ x[3] }}</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-    </table>
-
     </table>
 
 {% endblock %}
