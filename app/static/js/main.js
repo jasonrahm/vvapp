@@ -160,8 +160,7 @@ jQuery(document).ready(function() {
         return false;
     });
     $("#matchreport").tablesorter({
-            sortInitialOrder: 'desc',
-            sortList: [[1,1]] // etc.
+            sortList: [[1,0]] // etc.
 
     });
     $('table.highchart').highchartTable();
