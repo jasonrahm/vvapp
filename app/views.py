@@ -496,6 +496,7 @@ def pit_scouting(comp):
         else:
             # Put Code to process form and add to DB here
             team = request.form.get('team', '')
+            adv = request.form.get('adv', '')
             drivetrain = request.form.get('drivetrain', '')
             auto = request.form.get('auto', '')
             auto_defense = request.form.get('auto_defense', '')
@@ -516,6 +517,7 @@ def pit_scouting(comp):
             pitscouting = PitScouting(
                 competitions=comp,
                 teams=team,
+                adv=adv,
                 drivetrain=drivetrain,
                 auto=auto,
                 auto_defense=auto_defense,

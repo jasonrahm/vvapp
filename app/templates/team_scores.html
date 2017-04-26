@@ -8,6 +8,7 @@
     <table class="table table-responsive" id="pit_report">
     <caption>Pit Scouting</caption>
     <tr>
+        <th>Advancement</th>
         <th>Drivetrain</th>
         <th>Autonomous</th>
         <th>Defense (auto)</th>
@@ -25,6 +26,7 @@
     </tr>
     {% for x in pit_scouting %}
     <tr>
+    <td>{{ x.adv }}</td>
     <td>{{ x.drivetrain }}</td>
     <td>{{ x.auto }}</td>
     <td>{{ x.auto_defense }}</td>

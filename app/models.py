@@ -155,6 +155,7 @@ class PitScouting(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     teams = db.Column(db.ForeignKey('Teams.id'), index=True)
     competitions = db.Column(db.ForeignKey('Competitions.id'), index=True)
+    adv = db.Column(db.Integer)
     drivetrain = db.Column(db.String(50))
     auto = db.Column(db.Boolean)
     auto_defense = db.Column(db.Boolean)
@@ -182,6 +183,7 @@ class PitScouting(db.Model):
     def __init__(self,
                  teams,
                  competitions,
+                 adv,
                  drivetrain,
                  auto,
                  auto_defense,
@@ -200,6 +202,7 @@ class PitScouting(db.Model):
                  timestamp):
         self.teams = teams
         self.competitions = competitions
+        self.adv = adv
         self.drivetrain = drivetrain
         self.auto = auto
         self.auto_defense = auto_defense
