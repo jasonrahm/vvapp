@@ -1,4 +1,8 @@
 var a_center_counter=0;
+var a_center_ball_counter=0;
+var a_corner_ball_counter=0;
+var t_center_ball_counter=0;
+var t_corner_ball_counter=0;
 var a_center_miss_counter=0;
 var a_beacon_counter=0;
 var a_beacon_miss_counter=0;
@@ -14,6 +18,38 @@ var t_capball_previous;
 var total_score_counter=0;
 
 jQuery(document).ready(function() {
+    $("#a_center_ball_incr").click(function(){
+        a_center_ball_counter+=1;
+        $("#a_center_balls").val(a_center_ball_counter);
+    });
+    $("#a_center_ball_decr").click(function(){
+        a_center_ball_counter-=1;
+        $("#a_center_balls").val(a_center_ball_counter);
+    });
+    $("#a_corner_ball_incr").click(function(){
+        a_corner_ball_counter+=1;
+        $("#a_corner_balls").val(a_corner_ball_counter);
+    });
+    $("#a_corner_ball_decr").click(function(){
+        a_corner_ball_counter-=1;
+        $("#a_corner_balls").val(a_corner_ball_counter);
+    });
+    $("#t_center_ball_incr").click(function(){
+        t_center_ball_counter+=1;
+        $("#t_center_balls").val(t_center_ball_counter);
+    });
+    $("#t_center_ball_decr").click(function(){
+        t_center_ball_counter-=1;
+        $("#t_center_balls").val(t_center_ball_counter);
+    });
+    $("#t_corner_ball_incr").click(function(){
+        t_corner_ball_counter+=1;
+        $("#t_corner_balls").val(t_corner_ball_counter);
+    });
+    $("#t_corner_ball_decr").click(function(){
+        t_corner_ball_counter-=1;
+        $("#t_corner_balls").val(t_corner_ball_counter);
+    });
     $("#a_center_incr").click(function(){
         a_center_counter+=1;
         a_score_counter+=15;
@@ -164,4 +200,6 @@ jQuery(document).ready(function() {
 
     });
     $('table.highchart').highchartTable();
+
+    $('table.sticky-header').floatThead();
 });

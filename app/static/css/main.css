@@ -17,12 +17,15 @@ h5 {
 
 
 /*new stuff*/
+#pit_scouting .form-group input[type=number] ::-webkit-inner-spin-button,
+#pit_scouting .form-group input[type=number] ::-webkit-outer-spin-button,
 #scoring .form-group input[type=number]::-webkit-inner-spin-button,
 #scoring .form-group input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
+#pit_scouting .form-group input[type=number],
 #scoring .form-group input[type=number] {
     -moz-appearance: textfield;
 }
@@ -40,12 +43,14 @@ h5 {
     padding-right: 5px;
 }
 
+#pit_scouting .form-group input[type=number],
 #scoring .form-group input[type=number] {
     width: 42px;
     height: 42px;
     text-align: center;
 }
 
+#pit_scouting .form-group button,
 #scoring .form-group button {
     width: 30px;
     height: 30px;
@@ -70,4 +75,9 @@ thead {color:green;}
 th:hover{
      cursor:pointer;
      background:#AAA;
+}
+table.floatThead-table {
+    border-top: none;
+    border-bottom: none;
+    background-color: #FFF;
 }

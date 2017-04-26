@@ -40,7 +40,7 @@ compcheck = db.session.query(Competitions).filter(
 if compcheck is not None:
     cur_comp = compcheck.id
 else:
-    cur_comp = 7
+    cur_comp = 8
 
 print cur_comp
 
@@ -172,8 +172,8 @@ def logout():
 
 @app.route('/match-list/', methods=['GET'])
 def match_list():
-    ml = 'http://firstinspiresiowa.org/cache/' \
-         'Matches_North_Super_Regional_Kindig.html'
+    ml = 'http://stlouis.worlds.pennfirst.org/' \
+         'cache/Matches_2017_World_Championship_Ochoa.html'
     ml_response = requests.get(ml, verify=False)
     ml_soup = bs(ml_response.text)
     ml_data = ml_soup.findAll('table')[0]
@@ -547,14 +547,14 @@ def pit_scouting(comp):
 
 @app.route('/rankings', methods=['GET'])
 def rankings():
-    rank = 'http://firstinspiresiowa.org/cache/' \
-           'Rankings_North_Super_Regional_Kindig.html'
+    rank = 'http://stlouis.worlds.pennfirst.org/' \
+           'cache/Rankings_2017_World_Championship_Ochoa.html'
     rank_response = requests.get(rank, verify=False)
     rank_soup = bs(rank_response.text)
     rank_data = rank_soup.findAll('table')[0]
 
-    match = 'http://firstinspiresiowa.org/cache/' \
-            'MatchResults_North_Super_Regional_Kindig.html'
+    match = 'http://stlouis.worlds.pennfirst.org/' \
+            'cache/MatchResults_2017_World_Championship_Ochoa.html'
     match_response = requests.get(match, verify=False)
     match_soup = bs(match_response.text)
     match_data = match_soup.findAll('table')[0]

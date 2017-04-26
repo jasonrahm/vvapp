@@ -355,16 +355,8 @@ class PitScoutingForm(FlaskForm):
     auto = BooleanField('Do they have autonomous?')
     auto_defense = BooleanField('Do they play defense in autonomous?')
     auto_compatible = BooleanField('Is their autonomous compatible with ours?')
-    a_center_balls = SelectField('Center vortex particles?',
-                                 choices=[(0, 'No particles'),
-                                          (1, '1 particle'),
-                                          (2, '2 particles'),
-                                          (3, '3+ particles')], coerce=int)
-    a_corner_balls = SelectField('Corner vortex particles?',
-                                 choices=[(0, 'No particles'),
-                                          (1, '1 particle'),
-                                          (2, '2 particles'),
-                                          (3, '3+ particles')], coerce=int)
+    a_center_balls = IntegerField('Center Particles Capability', default=0)
+    a_corner_balls = IntegerField('Corner Particles Capability', default=0)
     a_capball = BooleanField('Can they knock the cap ball?')
     a_beacons = SelectField('Beacons Claimed?',
                                  choices=[(0, 'No beacons'),
@@ -376,16 +368,8 @@ class PitScoutingForm(FlaskForm):
                                           (2, 'Fully on Center'),
                                           (3, 'Partially on Corner'),
                                           (4, 'Fully on Corner')], coerce=int)
-    t_center_balls = SelectField('Center vortex particles?',
-                                 choices=[(0, 'No particles'),
-                                          (1, '1-3 particles'),
-                                          (2, '4-7 particles'),
-                                          (3, '8+ particles')], coerce=int)
-    t_corner_balls = SelectField('Corner vortex particles?',
-                                 choices=[(0, 'No particles'),
-                                          (1, '1-3 particles'),
-                                          (2, '4-7 particles'),
-                                          (3, '8+ particles')], coerce=int)
+    t_center_balls = IntegerField('Center Particles Capability', default=0)
+    t_corner_balls = IntegerField('Corner Particles Capability', default=0)
     t_beacons = BooleanField('Can they push beacons?')
     t_capball = SelectField('Can they lift the cap ball?',
                             choices=[(0, 'No'),
