@@ -337,14 +337,21 @@ class PitReportingForm(FlaskForm):
 
 class PitScoutingForm(FlaskForm):
     team = SelectField('Team', coerce=int)
+    adv = SelectField('Advanced From?',
+                      choices=[(1, 'East Super Regional'),
+                               (2, 'North Super Regional'),
+                               (3, 'International'),
+                               (4, 'Lottery')],
+                      coerce=int)
     drivetrain = SelectField('Type of Drivetrain',
                              choices=[(1, 'Skid Steer'),
                                       (2, 'Mechanum'),
                                       (3, 'Holonomic'),
                                       (4, 'Tank Treads'),
-                                      (5, 'Unspecified')],
+                                      (5, 'Shopping Cart'),
+                                      (6, 'Unspecified')],
                              coerce=int,
-                             default=5)
+                             default=6)
     auto = BooleanField('Do they have autonomous?')
     auto_defense = BooleanField('Do they play defense in autonomous?')
     auto_compatible = BooleanField('Is their autonomous compatible with ours?')
@@ -363,12 +370,12 @@ class PitScoutingForm(FlaskForm):
                                  choices=[(0, 'No beacons'),
                                           (1, '1 beacon'),
                                           (2, '2 beacons')], coerce=int)
-    a_park = SelectField('Parking location?',
-                                 choices=[(0, 'Floor'),
+    a_park = SelectField('Robot Location',
+                                 choices=[(0, 'On the Floor'),
                                           (1, 'Partially on Center'),
-                                          (1, 'Partially on Corner'),
                                           (2, 'Fully on Center'),
-                                          (2, 'Fully on Corner')], coerce=int)
+                                          (3, 'Partially on Corner'),
+                                          (4, 'Fully on Corner')], coerce=int)
     t_center_balls = SelectField('Center vortex particles?',
                                  choices=[(0, 'No particles'),
                                           (1, '1-3 particles'),
